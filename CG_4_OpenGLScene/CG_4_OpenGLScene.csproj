@@ -59,21 +59,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractColorFigure.cs" />
-    <Compile Include="AbstractFigure.cs" />
-    <Compile Include="Axis.cs" />
+    <Compile Include="Figures\AbstractColorFigure.cs" />
+    <Compile Include="Figures\AbstractFigure.cs" />
+    <Compile Include="Figures\Axis.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="CameraFP.cs" />
-    <Compile Include="ColorF.cs" />
-    <Compile Include="ConversionMatrix.cs" />
-    <Compile Include="Cube.cs" />
-    <Compile Include="Grid.cs" />
-    <Compile Include="Ground.cs" />
-    <Compile Include="HomogeneousCoordinates.cs" />
-    <Compile Include="Icosahedron.cs" />
-    <Compile Include="Matrix.cs" />
-    <Compile Include="Point3D.cs" />
-    <Compile Include="Pyramid.cs" />
+    <Compile Include="HelpersClasses\ColorF.cs" />
+    <Compile Include="HelpersClasses\ConversionMatrix.cs" />
+    <Compile Include="Figures\Cube.cs" />
+    <Compile Include="Figures\Grid.cs" />
+    <Compile Include="Figures\Ground.cs" />
+    <Compile Include="HelpersClasses\HomogeneousCoordinates.cs" />
+    <Compile Include="Figures\Icosahedron.cs" />
+    <Compile Include="HelpersClasses\Matrix.cs" />
+    <Compile Include="HelpersClasses\Point3D.cs" />
+    <Compile Include="Figures\Pyramid.cs" />
     <Compile Include="Scene.cs" />
     <Compile Include="SharpGLForm.cs">
       <SubType>Form</SubType>
@@ -83,9 +83,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tree.cs" />
-    <Compile Include="Triangle.cs" />
-    <Compile Include="Vector3d.cs" />
+    <Compile Include="Figures\Tree.cs" />
+    <Compile Include="Figures\Triangle.cs" />
+    <Compile Include="HelpersClasses\Vector3d.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
