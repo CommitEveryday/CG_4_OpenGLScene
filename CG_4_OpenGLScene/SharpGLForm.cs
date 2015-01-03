@@ -288,5 +288,10 @@ namespace CG_4_OpenGLScene
                 matrD[i] = matrix[i];
             richTextBoxLog.AppendText(new Matrix(4, 4, matrD).ToString());
         }
+
+        private void очиститьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBoxLog.Clear();
+        }
     }
 }

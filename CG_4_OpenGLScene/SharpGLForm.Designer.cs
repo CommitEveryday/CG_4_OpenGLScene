@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.openGLControl = new SharpGL.OpenGLControl();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.параметрыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -36,11 +37,14 @@
             this.заливкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.плаваняToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.плоскаяToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
             this.видToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.логToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
+            this.contextMenuStripLog = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.очиститьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.openGLControl)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            this.contextMenuStripLog.SuspendLayout();
             this.SuspendLayout();
             // 
             // openGLControl
@@ -121,16 +125,6 @@
             this.плоскаяToolStripMenuItem.Text = "Плоская";
             this.плоскаяToolStripMenuItem.Click += new System.EventHandler(this.плоскаяToolStripMenuItem_Click);
             // 
-            // richTextBoxLog
-            // 
-            this.richTextBoxLog.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.richTextBoxLog.Location = new System.Drawing.Point(0, 295);
-            this.richTextBoxLog.Name = "richTextBoxLog";
-            this.richTextBoxLog.Size = new System.Drawing.Size(624, 96);
-            this.richTextBoxLog.TabIndex = 2;
-            this.richTextBoxLog.Text = "";
-            this.richTextBoxLog.WordWrap = false;
-            // 
             // видToolStripMenuItem
             // 
             this.видToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -144,9 +138,34 @@
             this.логToolStripMenuItem.Checked = true;
             this.логToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.логToolStripMenuItem.Name = "логToolStripMenuItem";
-            this.логToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.логToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.логToolStripMenuItem.Text = "Лог";
             this.логToolStripMenuItem.Click += new System.EventHandler(this.логToolStripMenuItem_Click);
+            // 
+            // richTextBoxLog
+            // 
+            this.richTextBoxLog.ContextMenuStrip = this.contextMenuStripLog;
+            this.richTextBoxLog.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.richTextBoxLog.Location = new System.Drawing.Point(0, 295);
+            this.richTextBoxLog.Name = "richTextBoxLog";
+            this.richTextBoxLog.Size = new System.Drawing.Size(624, 96);
+            this.richTextBoxLog.TabIndex = 2;
+            this.richTextBoxLog.Text = "";
+            this.richTextBoxLog.WordWrap = false;
+            // 
+            // contextMenuStripLog
+            // 
+            this.contextMenuStripLog.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.очиститьToolStripMenuItem});
+            this.contextMenuStripLog.Name = "contextMenuStripLog";
+            this.contextMenuStripLog.Size = new System.Drawing.Size(135, 26);
+            // 
+            // очиститьToolStripMenuItem
+            // 
+            this.очиститьToolStripMenuItem.Name = "очиститьToolStripMenuItem";
+            this.очиститьToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.очиститьToolStripMenuItem.Text = "Очистить";
+            this.очиститьToolStripMenuItem.Click += new System.EventHandler(this.очиститьToolStripMenuItem_Click);
             // 
             // SharpGLForm
             // 
@@ -162,6 +181,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.openGLControl)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.contextMenuStripLog.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -180,6 +200,8 @@
         private System.Windows.Forms.RichTextBox richTextBoxLog;
         private System.Windows.Forms.ToolStripMenuItem видToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem логToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripLog;
+        private System.Windows.Forms.ToolStripMenuItem очиститьToolStripMenuItem;
     }
 }
 
