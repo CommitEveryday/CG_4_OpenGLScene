@@ -158,12 +158,13 @@
             this.contextMenuStripLog.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.очиститьToolStripMenuItem});
             this.contextMenuStripLog.Name = "contextMenuStripLog";
-            this.contextMenuStripLog.Size = new System.Drawing.Size(135, 26);
+            this.contextMenuStripLog.ShowImageMargin = false;
+            this.contextMenuStripLog.Size = new System.Drawing.Size(128, 48);
             // 
             // очиститьToolStripMenuItem
             // 
             this.очиститьToolStripMenuItem.Name = "очиститьToolStripMenuItem";
-            this.очиститьToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.очиститьToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.очиститьToolStripMenuItem.Text = "Очистить";
             this.очиститьToolStripMenuItem.Click += new System.EventHandler(this.очиститьToolStripMenuItem_Click);
             // 
