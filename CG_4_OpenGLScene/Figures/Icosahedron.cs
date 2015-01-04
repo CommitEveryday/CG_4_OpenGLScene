@@ -61,7 +61,7 @@ namespace CG_4_OpenGLScene
                 d1 = new Vector3d(new Point3D(tindices[i][1]), new Point3D(tindices[i][2]));
                 d2 = new Vector3d(new Point3D(tindices[i][1]), new Point3D(tindices[i][0]));
                 norm = Vector3d.Product(d1, d2).GetNormalize();
-                gl.Normal(norm.GetAsArray());
+                gl.Normal(norm.ToArray());
  
                 gl.Vertex(vdata[tindices[i][0]]);
                 gl.Vertex(vdata[tindices[i][1]]);

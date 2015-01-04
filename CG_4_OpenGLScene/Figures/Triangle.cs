@@ -20,14 +20,14 @@ namespace CG_4_OpenGLScene
             gl.PushMatrix();
             gl.Scale(scaleKoef, scaleKoef, scaleKoef);
             gl.Translate(position.x, position.y + 1f, position.z);
-            //  Draw a coloured pyramid.
+            //  DrawPrimitive a coloured pyramid.
             gl.Begin(OpenGL.GL_TRIANGLES);
             {
                 Vector3d d1, d2, norm;
                 d1 = new Vector3d(new Point3D(0.0f, 1.0f, 0.0f), new Point3D(-1.0f, -1.0f, 1.0f));
                 d2 = new Vector3d(new Point3D(-1.0f, -1.0f, 1.0f), new Point3D(1.0f, -1.0f, 1.0f));
                 norm = Vector3d.Product(d1, d2).GetNormalize();
-                gl.Normal(norm.GetAsArray());
+                gl.Normal(norm.ToArray());
 
                 gl.Color(1.0f, 0.0f, 0.0f, 100);
                 gl.Vertex(0.0f, 1.0f, 0.0f);
@@ -39,7 +39,7 @@ namespace CG_4_OpenGLScene
                 d1 = new Vector3d(new Point3D(0.0f, 1.0f, 0.0f), new Point3D(1.0f, -1.0f, 1.0f));
                 d2 = new Vector3d(new Point3D(1.0f, -1.0f, 1.0f), new Point3D(1.0f, -1.0f, -1.0f));
                 norm = Vector3d.Product(d1, d2).GetNormalize();
-                gl.Normal(norm.GetAsArray());
+                gl.Normal(norm.ToArray());
                 gl.Color(1.0f, 0.0f, 0.0f, 100);
                 gl.Vertex(0.0f, 1.0f, 0.0f);
                 gl.Color(0.0f, 0.0f, 1.0f, 100);
@@ -50,7 +50,7 @@ namespace CG_4_OpenGLScene
                 d1 = new Vector3d(new Point3D(0.0f, 1.0f, 0.0f), new Point3D(1.0f, -1.0f, -1.0f));
                 d2 = new Vector3d(new Point3D(1.0f, -1.0f, -1.0f), new Point3D(-1.0f, -1.0f, -1.0f));
                 norm = Vector3d.Product(d1, d2).GetNormalize();
-                gl.Normal(norm.GetAsArray());
+                gl.Normal(norm.ToArray());
                 gl.Color(1.0f, 0.0f, 0.0f);
                 gl.Vertex(0.0f, 1.0f, 0.0f);
                 gl.Color(0.0f, 1.0f, 0.0f);

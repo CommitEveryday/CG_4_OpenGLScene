@@ -52,7 +52,7 @@ namespace CG_4_OpenGLScene
                     a.x * b.y - a.y * b.x);
         }
 
-        public float[] GetAsArray()
+        public float[] ToArray()
         {
             return new float[] { x, y, z };
         }

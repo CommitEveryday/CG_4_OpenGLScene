@@ -26,5 +26,10 @@ namespace CG_4_OpenGLScene
         {
             return new Point3D(a.x-b.x, a.y-b.y, a.z-b.z);
         }
+
+        public float[] ToArray()
+        {
+            return new float[] { x, y, z };
+        }
     }
 }

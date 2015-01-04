@@ -23,45 +23,23 @@ namespace CG_4_OpenGLScene
             float halfSize = size / 2;
             gl.Translate(position.x, position.y + halfSize, position.z);
             gl.Color(color.GetInArrWithAlpha());
-            gl.Begin(BeginMode.QuadStrip);
+            Point3D[] vertex = new Point3D[]
             {
-                gl.Normal(0, 1, 0);
-                gl.Vertex(halfSize, halfSize, -halfSize);
-                gl.Vertex(-halfSize, halfSize, -halfSize);
-                gl.Vertex(halfSize, halfSize, halfSize);
-                gl.Vertex(-halfSize, halfSize, halfSize);
-
-                gl.Normal(0, 0, -1);
-                gl.Vertex(halfSize, -halfSize, halfSize);
-                gl.Vertex(-halfSize, -halfSize, halfSize);
-
-                gl.Normal(0, -1, 0);
-                gl.Vertex(halfSize, -halfSize, -halfSize);
-                gl.Vertex(-halfSize, -halfSize, -halfSize);
-
-                gl.Normal(0, 0, 1);
-                gl.Vertex(halfSize, halfSize, -halfSize);
-                gl.Vertex(-halfSize, halfSize, -halfSize);
-            }
-            gl.End();
-            gl.Begin(BeginMode.Quads);
-            {
-                gl.Normal(-1, 0, 0);
-                gl.Vertex(-halfSize, halfSize, halfSize);
-                gl.Vertex(-halfSize, halfSize, -halfSize);
-                gl.Vertex(-halfSize, -halfSize, -halfSize);
-                gl.Vertex(-halfSize, -halfSize, halfSize);
-            }
-            gl.End();
-            gl.Begin(BeginMode.Quads);
-            {
-                gl.Normal(1, 0, 0);
-                gl.Vertex(halfSize, halfSize, -halfSize);
-                gl.Vertex(halfSize, halfSize, halfSize);
-                gl.Vertex(halfSize, -halfSize, halfSize);
-                gl.Vertex(halfSize, -halfSize, -halfSize);
-            }
-            gl.End();
+                new Point3D(halfSize, halfSize, halfSize),
+                new Point3D(-halfSize, halfSize, halfSize),
+                new Point3D(-halfSize, -halfSize, halfSize),
+                new Point3D(halfSize, -halfSize, halfSize),
+                new Point3D(halfSize, halfSize, -halfSize),
+                new Point3D(-halfSize, halfSize, -halfSize),
+                new Point3D(-halfSize, -halfSize, -halfSize),
+                new Point3D(halfSize, -halfSize, -halfSize)
+            };
+            DrawPrimitive.Quard(gl, vertex[0], vertex[1], vertex[2], vertex[3], true);
+            DrawPrimitive.Quard(gl, vertex[0], vertex[4], vertex[5], vertex[1], true);
+            DrawPrimitive.Quard(gl, vertex[7], vertex[6], vertex[5], vertex[4], true);
+            DrawPrimitive.Quard(gl, vertex[3], vertex[2], vertex[6], vertex[7], true);
+            DrawPrimitive.Quard(gl, vertex[1], vertex[5], vertex[6], vertex[2], true);
+            DrawPrimitive.Quard(gl, vertex[0], vertex[3], vertex[7], vertex[4], true);
             gl.PopMatrix();
         }
     }

@@ -11,19 +11,13 @@ using SharpGL.Enumerations;
 
 namespace CG_4_OpenGLScene
 {
-    /// <summary>
-    /// The main form class.
-    /// </summary>
     public partial class SharpGLForm : Form
     {
         Scene scene;
         bool changeAngleByMouse;
-        Camera cam;
         Point prevMousePos;
+        Camera cam;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SharpGLForm"/> class.
-        /// </summary>
         public SharpGLForm()
         {
             InitializeComponent();
@@ -52,11 +46,9 @@ namespace CG_4_OpenGLScene
             cam.view(gl);
             //camFP.view(gl);
             //далее модельные
-
-            //отрисовка сцены
             scene.Draw(gl);
 
-            //gl.Flush();
+            ErrorHandler.TestError(gl, richTextBoxLog);
         }
 
         /// <summary>
@@ -88,14 +80,14 @@ namespace CG_4_OpenGLScene
         {
             float[] mat_specular = new float[]{1.0f,1.0f,1.0f,1.0f};
             float[]  mat_shininess = new float[]{50.0f};
-            float[]  light_position = new float[]{0.0f,10.0f,0.0f,0.0f};
+            float[]  light_position = new float[]{10.0f,10.0f,10.0f,0.0f};
             float[]  white_light = new float[]{1.0f,1.0f,1.0f,1.0f};
             //gl.Material(OpenGL.GL_FRONT, OpenGL.GL_SPECULAR, mat_specular);
             //gl.Material(OpenGL.GL_FRONT, OpenGL.GL_SHININESS, mat_shininess);
             gl.Light(OpenGL.GL_LIGHT0, OpenGL.GL_POSITION, light_position);
             gl.Light(OpenGL.GL_LIGHT0, OpenGL.GL_DIFFUSE, white_light);
             gl.Light(OpenGL.GL_LIGHT0, OpenGL.GL_SPECULAR, white_light);
-            gl.Enable(OpenGL.GL_LIGHTING);
+            //gl.Enable(OpenGL.GL_LIGHTING);
             gl.Enable(OpenGL.GL_LIGHT0);
 
             gl.LightModel(LightModelParameter.LocalViewer, OpenGL.GL_TRUE);

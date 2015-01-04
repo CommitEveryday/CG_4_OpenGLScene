@@ -71,19 +71,6 @@ namespace CG_4_OpenGLScene
             if (ShowGrid)
                 grid.Draw(gl);
             figs.ForEach(x => x.Draw(gl));
-            TestError(gl);
-        }
-
-        private void TestError(OpenGL gl)
-        {
-            uint code;
-            StringBuilder str = new StringBuilder();
-            while ((code = gl.GetError()) != OpenGL.GL_NO_ERROR)
-            {
-                str.AppendLine(gl.GetErrorDescription(code));
-            }
-            if (str.Length > 0)
-                MessageBox.Show(str.ToString());
         }
     }
 }

@@ -69,8 +69,11 @@
     <Compile Include="Figures\Cube.cs" />
     <Compile Include="Figures\Grid.cs" />
     <Compile Include="Figures\Ground.cs" />
+    <Compile Include="HelpersClasses\DrawPrimitive.cs" />
+    <Compile Include="HelpersClasses\ErrorHandler.cs" />
     <Compile Include="HelpersClasses\HomogeneousCoordinates.cs" />
     <Compile Include="Figures\Icosahedron.cs" />
+    <Compile Include="HelpersClasses\Log.cs" />
     <Compile Include="HelpersClasses\Matrix.cs" />
     <Compile Include="HelpersClasses\Point3D.cs" />
     <Compile Include="Figures\Pyramid.cs" />
