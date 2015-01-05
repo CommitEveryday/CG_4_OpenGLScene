@@ -17,6 +17,7 @@ namespace CG_4_OpenGLScene
         bool changeAngleByMouse;
         Point prevMousePos;
         Camera cam;
+        CameraFP camFP;
 
         public SharpGLForm()
         {
@@ -43,8 +44,8 @@ namespace CG_4_OpenGLScene
             //видовые проеобразования (установка камеры)
             gl.MatrixMode(MatrixMode.Modelview);
             gl.LoadIdentity();
-            cam.view(gl);
-            //camFP.view(gl);
+            //cam.view(gl);
+            camFP.view(gl);
             //далее модельные
             scene.Draw(gl);
 
@@ -72,6 +73,7 @@ namespace CG_4_OpenGLScene
             gl.ClearColor(0, 0, 0, 1);
 
             cam = new Camera(new Point3D(), new Point3D());
+            camFP = new CameraFP();
 
             InitLight(gl);
         }
@@ -155,8 +157,10 @@ namespace CG_4_OpenGLScene
             {
                 float angle = -(prevMousePos.X - e.Location.X) / 2;
                 cam.moveh(angle);
+                camFP.left(prevMousePos.X - e.Location.X);
                 angle = (e.Location.Y - prevMousePos.Y) / 2;
                 cam.movev(-angle);
+                camFP.up(e.Location.Y - prevMousePos.Y);
                 prevMousePos = e.Location;
                 openGLControl.DoRender();
             }
