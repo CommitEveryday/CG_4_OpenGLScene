@@ -15,6 +15,7 @@ namespace CG_4_OpenGLScene
         private float angleVisionVertical = 0;
         Point3D position;
         Vector3d eyeTrace;
+        private float sensForGo = 0.5f;
 
         public CameraFP()
         {
@@ -51,7 +52,44 @@ namespace CG_4_OpenGLScene
         }
 
         //TODO ограничить поворт в вертикальной плоскости
-        //TODO движение
+
+        public void GoForward()
+        {
+            Vector3d viewVectorNorm = GetRotatedByAngles(eyeTrace.GetNormalize()).GetNormalize();
+            position = (new Vector3d(position) + (sensForGo * viewVectorNorm)).GetAsPoint3D();
+        }
+
+        public void GoBack()
+        {
+            Vector3d viewVectorNorm = GetRotatedByAngles(eyeTrace.GetNormalize()).GetNormalize();
+            position = (new Vector3d(position) + (sensForGo * (-1) * viewVectorNorm)).GetAsPoint3D();
+        }
+
+        public void GoLeft()
+        {
+            Vector3d fromEyeToRightNorm = new Vector3d(
+                ((new HomogeneousCoordinates(eyeTrace.GetAsPoint3D())) * ConversionMatrix.GetRotationY(-Math.PI / 2)).ToPoint3D());
+            fromEyeToRightNorm = GetRotatedByAngles(fromEyeToRightNorm).GetNormalize();
+            position = (new Vector3d(position) + (sensForGo * (-1) * fromEyeToRightNorm)).GetAsPoint3D();
+        }
+
+        public void GoRight()
+        {
+            Vector3d fromEyeToRightNorm = new Vector3d(
+                ((new HomogeneousCoordinates(eyeTrace.GetAsPoint3D())) * ConversionMatrix.GetRotationY(-Math.PI / 2)).ToPoint3D());
+            fromEyeToRightNorm = GetRotatedByAngles(fromEyeToRightNorm).GetNormalize();
+            position = (new Vector3d(position) + (sensForGo * fromEyeToRightNorm)).GetAsPoint3D();
+        }
+
+        /// <summary>
+        /// Вращение камеры на основе движения мыши в экранных координатах
+        /// </summary>
+        /// <param name="pixelDX"></param>
+        /// <param name="pixledDY"></param>
+        public void Rotate(float pixelDX, float pixelDY)
+        {
+
+        }
 
         public void left(float pixel)
         {
@@ -77,7 +115,7 @@ namespace CG_4_OpenGLScene
         private void checkAngle(ref float angle)
         {
             while (angle >= 360) angle -= 360;
-            while (angle < 0) angle += 360;
+            while (angle <= -360) angle += 360;
         }
     }
 }

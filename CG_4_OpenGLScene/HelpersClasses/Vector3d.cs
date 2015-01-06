@@ -43,6 +43,11 @@ namespace CG_4_OpenGLScene
             return new Vector3d(a.x + b.x, a.y + b.y, a.z + b.z);
         }
 
+        public static Vector3d operator *(float a, Vector3d b)
+        {
+            return new Vector3d(a * b.x, a * b.y, a * b.z);
+        }
+
         public static Vector3d Product(Vector3d a, Vector3d b)
         {
             return 

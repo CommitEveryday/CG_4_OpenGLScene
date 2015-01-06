@@ -171,18 +171,22 @@ namespace CG_4_OpenGLScene
             OpenGL Gl = openGLControl.OpenGL;
             if (keyData == Keys.Left)
             {
+                camFP.GoLeft();
                 cam.left();
             }
             else if (keyData == Keys.Right)
             {
+                camFP.GoRight();
                 cam.right();
             }
             else if (keyData == Keys.Up)
             {
+                camFP.GoForward();
                 cam.up();
             }
             else if (keyData == Keys.Down)
             {
+                camFP.GoBack();
                 cam.down();
             }
             else if (keyData == Keys.Z)
