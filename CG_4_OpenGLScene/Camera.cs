@@ -2,88 +2,104 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace CG_4_OpenGLScene
 {
     class Camera
     {
-        private Point3D eye;
-        public Point3D cntr { get; set; }
-        private float dist, angleh, anglev;
-        public float distance { get { return dist; } set { dist = value; } }
-        public Camera(Point3D eye, Point3D cntr, float distance = 20)
+        private readonly float sensForGo = 0.5f;
+        private readonly float sensForX = 360f / Screen.PrimaryScreen.WorkingArea.Width;
+        private readonly float sensForY = 360f / Screen.PrimaryScreen.WorkingArea.Height;
+
+        private float angleVisionHorizontal = 0; //в градусах
+        private float angleVisionVertical = 0;
+        Point3D position;
+        Vector3d eyeTrace;
+
+        public Camera()
         {
-            this.eye = eye;
-            this.cntr = cntr;
-            this.dist = distance;
-            angleh = 90;
-            anglev = 90;
-            calc();
+            this.position = new Point3D(0,2,10);
+            this.eyeTrace = new Vector3d(0, 0, -1);
         }
+
         public void view(SharpGL.OpenGL gl)
         {
-            calc();
+            Vector3d viewVector = GetRotatedByAngles(eyeTrace.GetNormalize());
+            Vector3d fromEyeToRight = new Vector3d(
+                ((new HomogeneousCoordinates(eyeTrace.GetAsPoint3D())) * ConversionMatrix.GetRotationY(-Math.PI / 2)).ToPoint3D());
+            fromEyeToRight = GetRotatedByAngles(fromEyeToRight);
+            Vector3d vectorUp = Vector3d.Product(fromEyeToRight, viewVector).GetNormalize();
+            Point3D seeTo = (new Vector3d(position) + viewVector).GetAsPoint3D();
             gl.LookAt(
-                eye.x, eye.y, eye.z,
-                cntr.x, cntr.y, cntr.z,
-                0, 1, 0
+                position.x, position.y, position.z,
+                seeTo.x, seeTo.y, seeTo.z,
+                vectorUp.x, vectorUp.y, vectorUp.z
                 );
         }
-        private void calc()
+
+        private Vector3d GetRotatedByAngles(Vector3d vec)
         {
-            eye.x = cntr.x + dist * (float)Math.Cos(angleh * Math.PI / 180);
-            eye.y = cntr.y + dist * (float)Math.Cos(anglev * Math.PI / 180);
-            eye.z = cntr.z + dist * (float)Math.Sin(angleh * Math.PI / 180);
+            Matrix rotateInVertical = ConversionMatrix.GetRotationX(angleVisionVertical * (Math.PI / 180));
+            Matrix rotateInHorizontal = ConversionMatrix.GetRotationY(angleVisionHorizontal * (Math.PI / 180));
+            //сначала поворот вертикально, т.к. горизонтально всегда вокруг Y
+            Vector3d res = new Vector3d(
+                ((new HomogeneousCoordinates(vec.GetAsPoint3D())) * rotateInVertical).ToPoint3D());
+            res = new Vector3d(
+                ((new HomogeneousCoordinates(res.GetAsPoint3D())) * rotateInHorizontal).ToPoint3D());
+            res = res.GetNormalize();
+            return res;
         }
-        public static Camera operator ++(Camera cam)
+
+        public void GoForward()
         {
-            cam.distance--;
-            return cam;
+            Vector3d viewVectorNorm = GetRotatedByAngles(eyeTrace.GetNormalize()).GetNormalize();
+            position = (new Vector3d(position) + (sensForGo * viewVectorNorm)).GetAsPoint3D();
         }
-        public static Camera operator --(Camera cam)
+
+        public void GoBack()
         {
-            cam.distance++;
-            return cam;
+            Vector3d viewVectorNorm = GetRotatedByAngles(eyeTrace.GetNormalize()).GetNormalize();
+            position = (new Vector3d(position) + (sensForGo * (-1) * viewVectorNorm)).GetAsPoint3D();
         }
-        private void checkAngleH(ref float angle)
+
+        public void GoLeft()
         {
-            if (angle > 360) angle -= 360;
-            if (angle < 0) angle += 360;
+            Vector3d fromEyeToRightNorm = new Vector3d(
+                ((new HomogeneousCoordinates(eyeTrace.GetAsPoint3D())) * ConversionMatrix.GetRotationY(-Math.PI / 2)).ToPoint3D());
+            fromEyeToRightNorm = GetRotatedByAngles(fromEyeToRightNorm).GetNormalize();
+            position = (new Vector3d(position) + (sensForGo * (-1) * fromEyeToRightNorm)).GetAsPoint3D();
         }
-        private void checkAngleV(ref float angle)
+
+        public void GoRight()
         {
-            if (angle > 90) angle = 90;
-            if (angle < 0) angle = 0;
+            Vector3d fromEyeToRightNorm = new Vector3d(
+                ((new HomogeneousCoordinates(eyeTrace.GetAsPoint3D())) * ConversionMatrix.GetRotationY(-Math.PI / 2)).ToPoint3D());
+            fromEyeToRightNorm = GetRotatedByAngles(fromEyeToRightNorm).GetNormalize();
+            position = (new Vector3d(position) + (sensForGo * fromEyeToRightNorm)).GetAsPoint3D();
         }
-        public void left(float angle = 1)
+
+        /// <summary>
+        /// Вращение камеры на основе движения мыши в экранных координатах
+        /// </summary>
+        /// <param name="pixelDX">изменение координат мыши по горизонтали</param>
+        /// <param name="pixledDY"></param>
+        public void Rotate(float pixelDX, float pixelDY)
         {
-            angleh += angle;
-            checkAngleH(ref angleh);
+            angleVisionHorizontal += pixelDX * sensForX;
+            checkAngle(ref angleVisionHorizontal);
+            angleVisionVertical += pixelDY * sensForY;
+            checkAngle(ref angleVisionVertical);
+            if (angleVisionVertical > 89)
+                angleVisionVertical = 89;
+            if (angleVisionVertical < -89)
+                angleVisionVertical = -89;
         }
-        public void right(float angle = 1)
+
+        private void checkAngle(ref float angle)
         {
-            angleh -= angle;
-            checkAngleH(ref angleh);
-        }
-        public void moveh(float angle)
-        {
-            angleh += angle;
-            checkAngleH(ref angleh);
-        }
-        public void up(float angle = 1)
-        {
-            anglev -= angle;
-            checkAngleV(ref anglev);
-        }
-        public void down(float angle = 1)
-        {
-            anglev += angle;
-            checkAngleV(ref anglev);
-        }
-        public void movev(float angle)
-        {
-            anglev += angle;
-            checkAngleV(ref anglev);
+            while (angle >= 360) angle -= 360;
+            while (angle <= -360) angle += 360;
         }
     }
 }

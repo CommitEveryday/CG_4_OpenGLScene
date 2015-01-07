@@ -16,8 +16,7 @@ namespace CG_4_OpenGLScene
         Scene scene;
         bool changeAngleByMouse;
         Point prevMousePos;
-        Camera cam;
-        CameraFP camFP;
+        Camera camera;
 
         public SharpGLForm()
         {
@@ -45,7 +44,7 @@ namespace CG_4_OpenGLScene
             gl.MatrixMode(MatrixMode.Modelview);
             gl.LoadIdentity();
             //cam.view(gl);
-            camFP.view(gl);
+            camera.view(gl);
             //далее модельные
             scene.Draw(gl);
 
@@ -72,8 +71,7 @@ namespace CG_4_OpenGLScene
             //  Set the clear color.
             gl.ClearColor(0, 0, 0, 1);
 
-            cam = new Camera(new Point3D(), new Point3D());
-            camFP = new CameraFP();
+            camera = new Camera();
 
             InitLight(gl);
         }
@@ -155,12 +153,8 @@ namespace CG_4_OpenGLScene
         {
             if (changeAngleByMouse)
             {
-                float angle = -(prevMousePos.X - e.Location.X) / 2;
-                cam.moveh(angle);
-                camFP.left(prevMousePos.X - e.Location.X);
-                angle = (e.Location.Y - prevMousePos.Y) / 2;
-                cam.movev(-angle);
-                camFP.up(e.Location.Y - prevMousePos.Y);
+                camera.Rotate((prevMousePos.X - e.Location.X),
+                    prevMousePos.Y - e.Location.Y);
                 prevMousePos = e.Location;
                 openGLControl.DoRender();
             }
@@ -169,50 +163,24 @@ namespace CG_4_OpenGLScene
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             OpenGL Gl = openGLControl.OpenGL;
-            if (keyData == Keys.Left)
+            if (keyData == Keys.Left || keyData == Keys.A)
             {
-                camFP.GoLeft();
-                cam.left();
+                camera.GoLeft();
             }
-            else if (keyData == Keys.Right)
+            else if (keyData == Keys.Right || keyData == Keys.D)
             {
-                camFP.GoRight();
-                cam.right();
+                camera.GoRight();
             }
-            else if (keyData == Keys.Up)
+            else if (keyData == Keys.Up || keyData == Keys.W)
             {
-                camFP.GoForward();
-                cam.up();
+                camera.GoForward();
             }
-            else if (keyData == Keys.Down)
+            else if (keyData == Keys.Down || keyData == Keys.S)
             {
-                camFP.GoBack();
-                cam.down();
+                camera.GoBack();
             }
-            else if (keyData == Keys.Z)
-            {
-                cam++;
-            }
-            else if (keyData == Keys.X)
-            {
-                cam--;
-            }
-            else if (keyData == Keys.Q)
-            {
-                Gl.Enable(OpenGL.GL_LIGHT0);
-            }
-            else if (keyData == Keys.W)
-            {
-                Gl.Disable(OpenGL.GL_LIGHT0);
-            }
-            else if (keyData == Keys.A)
-            {
-                Gl.Enable(OpenGL.GL_LIGHT1);
-            }
-            else if (keyData == Keys.S)
-            {
-                Gl.Disable(OpenGL.GL_LIGHT1);
-            }
+            else
+                return base.ProcessCmdKey(ref msg, keyData);
             openGLControl.DoRender();
             return base.ProcessCmdKey(ref msg, keyData);
         }
@@ -235,22 +203,6 @@ namespace CG_4_OpenGLScene
             item.Checked = !item.Checked;
             scene.ShowGrid = item.Checked;
             openGLControl.DoRender();
-        }
-
-        protected override void OnMouseWheel(MouseEventArgs e)
-        {
-            if (Control.ModifierKeys == Keys.Control)
-            {
-                if (e.Delta > 0)
-                {
-                    cam++;
-                }
-                else if (e.Delta < 0)
-                {
-                    cam--;
-                }
-            }
-            base.OnMouseWheel(e);
         }
 
         private void плоскаяToolStripMenuItem_Click(object sender, EventArgs e)

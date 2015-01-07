@@ -63,7 +63,6 @@
     <Compile Include="Figures\AbstractFigure.cs" />
     <Compile Include="Figures\Axis.cs" />
     <Compile Include="Camera.cs" />
-    <Compile Include="CameraFP.cs" />
     <Compile Include="HelpersClasses\ColorF.cs" />
     <Compile Include="HelpersClasses\ConversionMatrix.cs" />
     <Compile Include="Figures\Cube.cs" />
