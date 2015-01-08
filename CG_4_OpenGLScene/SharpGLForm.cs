@@ -43,7 +43,6 @@ namespace CG_4_OpenGLScene
             //видовые проеобразования (установка камеры)
             gl.MatrixMode(MatrixMode.Modelview);
             gl.LoadIdentity();
-            //cam.view(gl);
             camera.view(gl);
             //далее модельные
             scene.Draw(gl);

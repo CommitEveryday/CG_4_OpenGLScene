@@ -37,7 +37,7 @@ namespace CG_4_OpenGLScene
             if (showNormal)
             {
                 gl.LineWidth(3);
-                gl.Color(1, 1, 1, 1);
+                gl.Color(1, 1, 1);
                 gl.Begin(BeginMode.Lines);
                 {
                     gl.Vertex(a.ToArray());
