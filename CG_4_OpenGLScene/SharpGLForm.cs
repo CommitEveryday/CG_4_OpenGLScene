@@ -8,6 +8,11 @@ using System.Text;
 using System.Windows.Forms;
 using SharpGL;
 using SharpGL.Enumerations;
+using SharpGL.SceneGraph.Primitives;
+using FileFormatWavefront;
+using FileFormatWavefront.Model;
+using System.Globalization;
+using System.Threading;
 
 namespace CG_4_OpenGLScene
 {
@@ -21,6 +26,12 @@ namespace CG_4_OpenGLScene
         public SharpGLForm()
         {
             InitializeComponent();
+            //! в библиотеке FileFormatWavefront использутеся float.parse без указания CultureInfo
+            //используется системный разделитель в вещественном числе, который в русской локале запятая
+            //в obj файле разделителем является точка
+            string theCultureString = "en-US";
+            CultureInfo ci = new CultureInfo(theCultureString);
+            Thread.CurrentThread.CurrentCulture = ci;
         }
 
         /// <summary>
@@ -159,7 +170,7 @@ namespace CG_4_OpenGLScene
             }
         }
 
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        protected override bool ProcessCmdKey(ref System.Windows.Forms.Message msg, Keys keyData)
         {
             OpenGL Gl = openGLControl.OpenGL;
             if (keyData == Keys.Left || keyData == Keys.A)
@@ -243,6 +254,43 @@ namespace CG_4_OpenGLScene
         private void очиститьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             richTextBoxLog.Clear();
+        }
+
+        private void открытьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openDialog = new OpenFileDialog();
+            openDialog.Filter = "OBJ|*.obj";
+            if (openDialog.ShowDialog() == DialogResult.OK)
+            {
+                var result = FileFormatObj.Load(openDialog.FileName);
+                //  Show each vertex.
+                richTextBoxLog.AppendText(String.Format("Show each vertex.") + Environment.NewLine);
+                foreach (Vertex v in result.Model.Vertices)
+                {
+                    richTextBoxLog.AppendText(String.Format("{0} {1} {2}", v.x, v.y, v.z) + Environment.NewLine);
+                }
+
+                richTextBoxLog.AppendText(String.Format("Groups") + Environment.NewLine);
+                result.Model.Groups.ToList().ForEach(x => x.Faces.ToList().ForEach(f=>{string s = "";
+                f.Indices.ToList().ForEach(i => s = s+i.vertex + " "); richTextBoxLog.AppendText(s + Environment.NewLine);
+                }));
+
+                richTextBoxLog.AppendText(String.Format("UngroupedFaces") + Environment.NewLine);
+                result.Model.UngroupedFaces.ToList().ForEach(f =>
+                {
+                    string s = "";
+                    f.Indices.ToList().ForEach(i => s = s + i.vertex + " "); richTextBoxLog.AppendText(s + Environment.NewLine);
+                });
+                result.Model.UngroupedFaces.ToList().ForEach(f =>
+                    richTextBoxLog.AppendText(String.Join(", ", f.Indices) + Environment.NewLine));
+                //  Show each message.
+                richTextBoxLog.AppendText(String.Format("Show each message.") + Environment.NewLine);
+                foreach (var message in result.Messages)
+                {
+                    richTextBoxLog.AppendText(String.Format("{0}: {1}", message.MessageType, message.Details) + Environment.NewLine);
+                    richTextBoxLog.AppendText(String.Format("{0}: {1}", message.FileName, message.LineNumber) + Environment.NewLine);
+                }
+            }
         }
     }
 }
