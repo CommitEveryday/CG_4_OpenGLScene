@@ -73,6 +73,9 @@ namespace CG_4_OpenGLScene
             scene = new Scene();
             //  Get the OpenGL object.
             OpenGL gl = openGLControl.OpenGL;
+
+            InitSettings(gl);
+
             //gl.Enable(OpenGL.GL_CULL_FACE);
             gl.Enable(OpenGL.GL_DEPTH_TEST);
             gl.PolygonMode(FaceMode.Back, PolygonMode.Filled);
@@ -84,6 +87,22 @@ namespace CG_4_OpenGLScene
             camera = new Camera();
 
             InitLight(gl);
+        }
+
+        private void InitSettings(OpenGL gl)
+        {
+            логToolStripMenuItem.Checked = true;
+            richTextBoxLog.Visible = логToolStripMenuItem.Checked;
+
+            плоскаяToolStripMenuItem.Checked = false;
+            плаваняToolStripMenuItem.Checked = true;
+            openGLControl.OpenGL.ShadeModel(ShadeModel.Smooth);
+
+            показыватьОсиToolStripMenuItem.Checked = true;
+            scene.ShowAxis = показыватьОсиToolStripMenuItem.Checked;
+
+            показыватьСеткуToolStripMenuItem.Checked = false;
+            scene.ShowGrid = показыватьСеткуToolStripMenuItem.Checked;
         }
 
         private void InitLight(OpenGL gl)

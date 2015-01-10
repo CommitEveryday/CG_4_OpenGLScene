@@ -31,6 +31,7 @@ namespace CG_4_OpenGLScene
         public Scene()
         {
             ShowAxis = false;
+            ShowGrid = false;
             axis = new Axis(new Point3D(), 10);
             grid = new Grid(new ColorF(0.5f, 0.5f, 0.5f), new Point3D());
             //TODO задание параметро объектов сцены
