@@ -66,6 +66,7 @@
     <Compile Include="Figures\AbstractFigure.cs" />
     <Compile Include="Figures\Axis.cs" />
     <Compile Include="Camera.cs" />
+    <Compile Include="Figures\FigureFromOBJ.cs" />
     <Compile Include="HelpersClasses\ColorF.cs" />
     <Compile Include="HelpersClasses\ConversionMatrix.cs" />
     <Compile Include="Figures\Cube.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="HelpersClasses\Matrix.cs" />
     <Compile Include="HelpersClasses\Point3D.cs" />
     <Compile Include="Figures\Pyramid.cs" />
+    <Compile Include="Lighting\PointLight.cs" />
     <Compile Include="Scene.cs" />
     <Compile Include="SharpGLForm.cs">
       <SubType>Form</SubType>

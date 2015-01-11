@@ -26,7 +26,7 @@ namespace CG_4_OpenGLScene
             this.r = colorDr.R / 255f;
             this.g = colorDr.G / 255f;
             this.b = colorDr.B / 255f;
-            alpha = 1f;
+            alpha = colorDr.A / 255f;
         }
 
         public float[] GetInArr()

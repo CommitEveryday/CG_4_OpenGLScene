@@ -58,6 +58,8 @@ namespace CG_4_OpenGLScene
             //figs.Add(new Pyramid(new Point3D(-5, 0, 5), 20, 2));
 
             figs.Add(new Cube(new ColorF(Color.LemonChiffon), new Point3D(-5,0,-5), 2));
+
+            figs.Add(new CG_4_OpenGLScene.Lighting.PointLight(new Point3D(10,10,10)));
         }
 
         /// <summary>
@@ -72,6 +74,14 @@ namespace CG_4_OpenGLScene
             if (ShowGrid)
                 grid.Draw(gl);
             figs.ForEach(x => x.Draw(gl));
+        }
+
+        public bool AddFigure(AbstractFigure fig)
+        {
+            if (figs.Contains(fig))
+                return false;
+            figs.Add(fig);
+            return true;
         }
     }
 }

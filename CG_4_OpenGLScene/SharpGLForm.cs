@@ -22,6 +22,7 @@ namespace CG_4_OpenGLScene
         bool changeAngleByMouse;
         Point prevMousePos;
         Camera camera;
+        ColorF clearColor;
 
         public SharpGLForm()
         {
@@ -32,33 +33,6 @@ namespace CG_4_OpenGLScene
             string theCultureString = "en-US";
             CultureInfo ci = new CultureInfo(theCultureString);
             Thread.CurrentThread.CurrentCulture = ci;
-        }
-
-        /// <summary>
-        /// Handles the OpenGLDraw event of the openGLControl control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="RenderEventArgs"/> instance containing the event data.</param>
-        private void openGLControl_OpenGLDraw(object sender, RenderEventArgs e)
-        {
-            richTextBoxLog.AppendText("openGLControl_OpenGLDraw\r\n");
-            richTextBoxLog.SelectionStart = richTextBoxLog.Text.Length;
-            richTextBoxLog.ScrollToCaret();
-            //  Get the OpenGL object.
-            OpenGL gl = openGLControl.OpenGL;
-            gl.Light(LightName.Light1, LightParameter.Diffuse, new float[] { 1f, 1f, 0, 0 });
-            gl.Light(LightName.Light1, LightParameter.Position, new float[] { 5f, 5f, 5f });
-
-            //  Clear the color and depth buffer.
-            gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
-            //видовые проеобразования (установка камеры)
-            gl.MatrixMode(MatrixMode.Modelview);
-            gl.LoadIdentity();
-            camera.view(gl);
-            //далее модельные
-            scene.Draw(gl);
-
-            ErrorHandler.TestError(gl, richTextBoxLog);
         }
 
         /// <summary>
@@ -76,13 +50,10 @@ namespace CG_4_OpenGLScene
 
             InitSettings(gl);
 
-            //gl.Enable(OpenGL.GL_CULL_FACE);
-            gl.Enable(OpenGL.GL_DEPTH_TEST);
-            gl.PolygonMode(FaceMode.Back, PolygonMode.Filled);
-            //gl.PolygonMode(FaceMode.Front, PolygonMode.Lines);
+            gl.CullFace(OpenGL.GL_BACK); //для верности. по умолчанию и так при включении удаления граней, удаляются задние поверхности
+
+            gl.FrontFace(OpenGL.GL_CCW); //для верности. по умолчанию и так обход вершин против часовой для лицевых граней
             gl.Enable(OpenGL.GL_NORMALIZE); //нормализация нормалей после масштабирования
-            //  Set the clear color.
-            gl.ClearColor(0, 0, 0, 1);
 
             camera = new Camera();
 
@@ -96,13 +67,41 @@ namespace CG_4_OpenGLScene
 
             плоскаяToolStripMenuItem.Checked = false;
             плаваняToolStripMenuItem.Checked = true;
-            openGLControl.OpenGL.ShadeModel(ShadeModel.Smooth);
+            gl.ShadeModel(ShadeModel.Smooth);
 
             показыватьОсиToolStripMenuItem.Checked = true;
             scene.ShowAxis = показыватьОсиToolStripMenuItem.Checked;
 
             показыватьСеткуToolStripMenuItem.Checked = false;
             scene.ShowGrid = показыватьСеткуToolStripMenuItem.Checked;
+
+            //colorDialogClear.Color = Color.FromArgb(255, 0, 0, 0);
+            colorDialogClear.Color = Color.Black;
+            clearColor = new ColorF(colorDialogClear.Color);
+            gl.ClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.alpha);
+
+            //контролирует сравнение по глубине и обновление буфера глубины
+            gl.Enable(OpenGL.GL_DEPTH_TEST);
+            буферГлубиныToolStripMenuItem.Checked = true;
+
+            gl.Disable(OpenGL.GL_LIGHTING);
+            освещениеToolStripMenuItem.Checked = false;
+
+            линейныйToolStripMenuItem.Checked = false;
+            точечныйToolStripMenuItem.Checked = false;
+            сплошнойToolStripMenuItem.Checked = true;
+            openGLControl.OpenGL.PolygonMode(FaceMode.Front, PolygonMode.Filled);
+
+            линейныйToolStripMenuItem1.Checked = true;
+            точечныйToolStripMenuItem1.Checked = false;
+            сплошнойToolStripMenuItem1.Checked = false;
+            openGLControl.OpenGL.PolygonMode(FaceMode.Back, PolygonMode.Lines);
+
+            gl.Disable(OpenGL.GL_CULL_FACE);
+            удалятьНелицевыеГраниToolStripMenuItem.Checked = false;
+            //TODO:
+            //GL_BLEND (контролирует наложение RGBA величин)
+            //Gl.glEnable(Gl.GL_BLEND);
         }
 
         private void InitLight(OpenGL gl)
@@ -147,7 +146,7 @@ namespace CG_4_OpenGLScene
             if (h == 0)
                 h = 1;
             float aspectRatio = (float)w / (float)h;
-            //gl.Viewport(0, 0, w, h); //SharpGP уже видимо настроил окно вывоад на весь openGLControl
+            //gl.Viewport(0, 0, w, h); //SharpGP уже видимо настроил окно вывода на весь openGLControl
 
             //  Set the projection matrix.
             gl.MatrixMode(OpenGL.GL_PROJECTION);
@@ -162,6 +161,33 @@ namespace CG_4_OpenGLScene
             gl.MatrixMode(OpenGL.GL_MODELVIEW);
             gl.LoadIdentity();
 
+        }
+
+        /// <summary>
+        /// Handles the OpenGLDraw event of the openGLControl control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RenderEventArgs"/> instance containing the event data.</param>
+        private void openGLControl_OpenGLDraw(object sender, RenderEventArgs e)
+        {
+            richTextBoxLog.AppendText("openGLControl_OpenGLDraw\r\n");
+            richTextBoxLog.SelectionStart = richTextBoxLog.Text.Length;
+            richTextBoxLog.ScrollToCaret();
+            //  Get the OpenGL object.
+            OpenGL gl = openGLControl.OpenGL;
+            gl.Light(LightName.Light1, LightParameter.Diffuse, new float[] { 1f, 1f, 0, 0 });
+            gl.Light(LightName.Light1, LightParameter.Position, new float[] { 5f, 5f, 5f });
+
+            //  Clear the color and depth buffer.
+            gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
+            //видовые проеобразования (установка камеры)
+            gl.MatrixMode(MatrixMode.Modelview);
+            gl.LoadIdentity();
+            camera.view(gl);
+            //далее модельные
+            scene.Draw(gl);
+
+            ErrorHandler.TestError(gl, richTextBoxLog);
         }
 
         private void openGLControl_MouseDown(object sender, MouseEventArgs e)
@@ -281,6 +307,10 @@ namespace CG_4_OpenGLScene
             openDialog.Filter = "OBJ|*.obj";
             if (openDialog.ShowDialog() == DialogResult.OK)
             {
+                scene.AddFigure(new FigureFromOBJ(new ColorF(Color.DarkOliveGreen), new Point3D(),
+                    openDialog.FileName));
+                openGLControl.DoRender();
+                return;
                 var result = FileFormatObj.Load(openDialog.FileName);
                 //  Show each vertex.
                 richTextBoxLog.AppendText(String.Format("Show each vertex.") + Environment.NewLine);
@@ -310,6 +340,114 @@ namespace CG_4_OpenGLScene
                     richTextBoxLog.AppendText(String.Format("{0}: {1}", message.FileName, message.LineNumber) + Environment.NewLine);
                 }
             }
+        }
+
+        private void цветФонаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (colorDialogClear.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                //MessageBox.Show("R:" + colorDialogClear.Color.R.ToString()
+                //    +"G:" + colorDialogClear.Color.G.ToString()
+                //    +"B:" + colorDialogClear.Color.B.ToString()
+                //+ "A:" + colorDialogClear.Color.A.ToString());
+                clearColor = new ColorF(colorDialogClear.Color);
+                OpenGL gl = openGLControl.OpenGL;
+                gl.ClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.alpha);
+                openGLControl.DoRender();
+            }
+        }
+
+        private void буферГлубиныToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = sender as ToolStripMenuItem;
+            if (item == null)
+                return;
+            item.Checked = !item.Checked;
+            if (item.Checked)
+                openGLControl.OpenGL.Enable(OpenGL.GL_DEPTH_TEST);
+            else
+                openGLControl.OpenGL.Disable(OpenGL.GL_DEPTH_TEST);
+            openGLControl.DoRender();
+        }
+
+        private void включитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = sender as ToolStripMenuItem;
+            if (item == null)
+                return;
+            item.Checked = !item.Checked;
+            if (item.Checked)
+                openGLControl.OpenGL.Enable(OpenGL.GL_LIGHTING);
+            else
+                openGLControl.OpenGL.Disable(OpenGL.GL_LIGHTING);
+            openGLControl.DoRender();
+        }
+
+        private void сплошнойToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            линейныйToolStripMenuItem.Checked = false;
+            точечныйToolStripMenuItem.Checked = false;
+            сплошнойToolStripMenuItem.Checked = true;
+            openGLControl.OpenGL.PolygonMode(FaceMode.Front, PolygonMode.Filled);
+            openGLControl.DoRender();
+        }
+
+        private void линейныйToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            линейныйToolStripMenuItem.Checked = true;
+            точечныйToolStripMenuItem.Checked = false;
+            сплошнойToolStripMenuItem.Checked = false;
+            openGLControl.OpenGL.PolygonMode(FaceMode.Front, PolygonMode.Lines);
+            openGLControl.DoRender();
+        }
+
+        private void точечныйToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            линейныйToolStripMenuItem.Checked = false;
+            точечныйToolStripMenuItem.Checked = true;
+            сплошнойToolStripMenuItem.Checked = false;
+            openGLControl.OpenGL.PolygonMode(FaceMode.Front, PolygonMode.Points);
+            openGLControl.DoRender();
+        }
+
+        private void сплошнойToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            линейныйToolStripMenuItem1.Checked = false;
+            точечныйToolStripMenuItem1.Checked = false;
+            сплошнойToolStripMenuItem1.Checked = true;
+            openGLControl.OpenGL.PolygonMode(FaceMode.Back, PolygonMode.Filled);
+            openGLControl.DoRender();
+        }
+
+        private void линейныйToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            линейныйToolStripMenuItem1.Checked = true;
+            точечныйToolStripMenuItem1.Checked = false;
+            сплошнойToolStripMenuItem1.Checked = false;
+            openGLControl.OpenGL.PolygonMode(FaceMode.Back, PolygonMode.Lines);
+            openGLControl.DoRender();
+        }
+
+        private void точечныйToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            линейныйToolStripMenuItem1.Checked = false;
+            точечныйToolStripMenuItem1.Checked = true;
+            сплошнойToolStripMenuItem1.Checked = false;
+            openGLControl.OpenGL.PolygonMode(FaceMode.Back, PolygonMode.Points);
+            openGLControl.DoRender();
+        }
+
+        private void удалятьНелицевыеГраниToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = sender as ToolStripMenuItem;
+            if (item == null)
+                return;
+            item.Checked = !item.Checked;
+            if (item.Checked)
+                openGLControl.OpenGL.Enable(OpenGL.GL_CULL_FACE);
+            else
+                openGLControl.OpenGL.Disable(OpenGL.GL_CULL_FACE);
+            openGLControl.DoRender();
         }
     }
 }
