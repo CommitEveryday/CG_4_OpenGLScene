@@ -45,29 +45,33 @@ namespace CG_4_OpenGLScene
             int i;
             gl.Color(color.GetInArrWithAlpha());
 
-            float[] specular1 = { 1, 1, 1, 1 };
-            gl.Material(OpenGL.GL_FRONT_AND_BACK, OpenGL.GL_SPECULAR, specular1);
-            gl.Material(OpenGL.GL_FRONT, OpenGL.GL_SHININESS, 128);
+            //float[] specular1 = { 1, 1, 1, 1 };
+            //gl.Material(OpenGL.GL_FRONT_AND_BACK, OpenGL.GL_SPECULAR, specular1);
+            //gl.Material(OpenGL.GL_FRONT, OpenGL.GL_SHININESS, 128);
 
-            gl.Begin(BeginMode.Triangles);
+            //gl.Begin(BeginMode.Triangles);
             for (i = 0; i < 20; i++)
             {
                 //Здесь помещается информация о цвете
                 //расчёт нормалей как перпендикуляров к граням
                 //TODO проверить правильность
-                Vector3d d1, d2, norm;
-                //d1 = new Vector3d(new Point3D(tindices[i][1]), new Point3D(tindices[i][0]));
-                //d2 = new Vector3d(new Point3D(tindices[i][2]), new Point3D(tindices[i][1]));
-                d1 = new Vector3d(new Point3D(tindices[i][1]), new Point3D(tindices[i][2]));
-                d2 = new Vector3d(new Point3D(tindices[i][1]), new Point3D(tindices[i][0]));
-                norm = Vector3d.Product(d1, d2).GetNormalize();
-                gl.Normal(norm.ToArray());
+                //Vector3d d1, d2, norm;
+                ////d1 = new Vector3d(new Point3D(tindices[i][1]), new Point3D(tindices[i][0]));
+                ////d2 = new Vector3d(new Point3D(tindices[i][2]), new Point3D(tindices[i][1]));
+                //d1 = new Vector3d(new Point3D(tindices[i][1]), new Point3D(tindices[i][2]));
+                //d2 = new Vector3d(new Point3D(tindices[i][1]), new Point3D(tindices[i][0]));
+                //norm = Vector3d.Product(d1, d2).GetNormalize();
+                //gl.Normal(norm.ToArray());
  
-                gl.Vertex(vdata[tindices[i][0]]);
-                gl.Vertex(vdata[tindices[i][1]]);
-                gl.Vertex(vdata[tindices[i][2]]);
+                //gl.Vertex(vdata[tindices[i][0]]);
+                //gl.Vertex(vdata[tindices[i][1]]);
+                //gl.Vertex(vdata[tindices[i][2]]);
+
+                DrawPrimitive.Triangle(gl, new Point3D(vdata[tindices[i][0]]), 
+                    new Point3D(vdata[tindices[i][1]]),
+                    new Point3D(vdata[tindices[i][2]]), true);
             }
-            gl.End();
+            //gl.End();
             gl.PopMatrix();
         }
     }

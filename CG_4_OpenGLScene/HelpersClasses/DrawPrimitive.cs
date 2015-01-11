@@ -10,7 +10,7 @@ namespace CG_4_OpenGLScene
     static class DrawPrimitive
     {
         /// <summary>
-        /// Предполагается, что обход точек выпооняется против часовой стрелки.
+        /// Предполагается, что обход точек выполняется против часовой стрелки.
         /// </summary>
         /// <param name="gl"></param>
         /// <param name="a"></param>

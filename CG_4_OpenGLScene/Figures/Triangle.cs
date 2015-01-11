@@ -58,6 +58,10 @@ namespace CG_4_OpenGLScene
                 gl.Color(0.0f, 0.0f, 1.0f);
                 gl.Vertex(-1.0f, -1.0f, -1.0f);
 
+                d1 = new Vector3d(new Point3D(0.0f, 1.0f, 0.0f), new Point3D(-1.0f, -1.0f, -1.0f));
+                d2 = new Vector3d(new Point3D(-1.0f, -1.0f, -1.0f), new Point3D(-1.0f, -1.0f, 1.0f));
+                norm = Vector3d.Product(d1, d2).GetNormalize();
+                gl.Normal(norm.ToArray());
                 gl.Color(1.0f, 0.0f, 0.0f);
                 gl.Vertex(0.0f, 1.0f, 0.0f);
                 gl.Color(0.0f, 0.0f, 1.0f);

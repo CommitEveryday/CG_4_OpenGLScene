@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SharpGL.Enumerations;
 using FileFormatWavefront;
+using SharpGL;
 
 namespace CG_4_OpenGLScene
 {

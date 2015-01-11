@@ -25,9 +25,11 @@ namespace CG_4_OpenGLScene
             gl.Rotate(-90, 1, 0, 0);
             int iPivot = 1;
             float x, y;
-            gl.Begin(BeginMode.TriangleFan);
+            //gl.Begin(BeginMode.TriangleFan);
             {
-                gl.Vertex(0f, 0f, size);
+                //gl.Vertex(0f, 0f, size);
+                Point3D top = new Point3D(0f, 0f, size);
+                Point3D prevPoint = null;
                 for (float angle = 0; angle <= (2f * Math.PI) + (((float)Math.PI / doubledFaceNumber) / 2); angle += ((float)Math.PI / doubledFaceNumber))
                 {
                     y = size * (float)Math.Sin(angle);
@@ -36,13 +38,19 @@ namespace CG_4_OpenGLScene
                         gl.Color(0f, 1f, 0f);
                     else
                         gl.Color(1f, 0f, 0f);
-                    gl.Vertex(x, y);
+                    //gl.Vertex(x, y);
+                    if (prevPoint != null)
+                    {
+                        DrawPrimitive.Triangle(gl, top, prevPoint, new Point3D(x,y), true);
+                    }
+                    prevPoint = new Point3D(x, y);
                 }
             }
-            gl.End();
-
+            //gl.End();
+            //основание
             gl.Begin(BeginMode.TriangleFan);
             {
+                gl.Normal(0, 0, -1f);
                 gl.Vertex(0f, 0f, 0f);
                 for (float angle = 0; angle <= (2f * Math.PI) + (((float)Math.PI / doubledFaceNumber) / 2); angle += ((float)Math.PI / doubledFaceNumber))
                 {
