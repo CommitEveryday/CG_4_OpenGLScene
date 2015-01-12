@@ -34,12 +34,12 @@ namespace CG_4_OpenGLScene
                 new Point3D(-halfSize, -halfSize, -halfSize),
                 new Point3D(halfSize, -halfSize, -halfSize)
             };
-            DrawPrimitive.Quard(gl, vertex[0], vertex[1], vertex[2], vertex[3], true);
-            DrawPrimitive.Quard(gl, vertex[0], vertex[4], vertex[5], vertex[1], true);
-            DrawPrimitive.Quard(gl, vertex[7], vertex[6], vertex[5], vertex[4], true);
-            DrawPrimitive.Quard(gl, vertex[3], vertex[2], vertex[6], vertex[7], true);
-            DrawPrimitive.Quard(gl, vertex[1], vertex[5], vertex[6], vertex[2], true);
-            DrawPrimitive.Quard(gl, vertex[0], vertex[3], vertex[7], vertex[4], true);
+            DrawPrimitive.Quard(gl, vertex[0], vertex[1], vertex[2], vertex[3], false);
+            DrawPrimitive.Quard(gl, vertex[0], vertex[4], vertex[5], vertex[1], false);
+            DrawPrimitive.Quard(gl, vertex[7], vertex[6], vertex[5], vertex[4], false);
+            DrawPrimitive.Quard(gl, vertex[3], vertex[2], vertex[6], vertex[7], false);
+            DrawPrimitive.Quard(gl, vertex[1], vertex[5], vertex[6], vertex[2], false);
+            DrawPrimitive.Quard(gl, vertex[0], vertex[3], vertex[7], vertex[4], false);
             gl.PopMatrix();
         }
     }

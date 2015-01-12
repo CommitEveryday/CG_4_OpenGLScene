@@ -17,6 +17,13 @@ namespace CG_4_OpenGLScene
             this.z = z;
         }
 
+        public Vector3d(float[] arr)
+        {
+            this.x = arr[0];
+            this.y = arr[1];
+            this.z = arr[2];
+        }
+
         public Vector3d(Point3D endPoint) :this(new Point3D(), endPoint)
         {
         }
@@ -46,6 +53,11 @@ namespace CG_4_OpenGLScene
         public static Vector3d operator *(float a, Vector3d b)
         {
             return new Vector3d(a * b.x, a * b.y, a * b.z);
+        }
+
+        public static Vector3d operator /(Vector3d v, float a)
+        {
+            return new Vector3d(v.x/a, v.y/a, v.z/a);
         }
 
         public static Vector3d Product(Vector3d a, Vector3d b)

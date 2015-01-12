@@ -19,7 +19,7 @@ namespace CG_4_OpenGLScene
 
         public Camera()
         {
-            this.position = new Point3D(0,2,10);
+            this.position = new Point3D(0,2,20);
             this.eyeTrace = new Vector3d(0, 0, -1);
         }
 

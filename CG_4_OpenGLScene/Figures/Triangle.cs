@@ -18,8 +18,8 @@ namespace CG_4_OpenGLScene
         public override void Draw(SharpGL.OpenGL gl)
         {
             gl.PushMatrix();
-            gl.Scale(scaleKoef, scaleKoef, scaleKoef);
             gl.Translate(position.x, position.y + 1f, position.z);
+            gl.Scale(scaleKoef, scaleKoef, scaleKoef);
             //  DrawPrimitive a coloured pyramid.
             gl.Begin(OpenGL.GL_TRIANGLES);
             {

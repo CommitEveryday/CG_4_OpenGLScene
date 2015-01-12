@@ -67,6 +67,14 @@
     <Compile Include="Figures\Axis.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Figures\FigureFromOBJ.cs" />
+    <Compile Include="Figures\IcosahedronAsSphere.cs" />
+    <Compile Include="Figures\SphereFromIcosahedron.cs" />
+    <Compile Include="FormPerspectiveAngle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPerspectiveAngle.Designer.cs">
+      <DependentUpon>FormPerspectiveAngle.cs</DependentUpon>
+    </Compile>
     <Compile Include="HelpersClasses\ColorF.cs" />
     <Compile Include="HelpersClasses\ConversionMatrix.cs" />
     <Compile Include="Figures\Cube.cs" />
@@ -76,11 +84,15 @@
     <Compile Include="HelpersClasses\ErrorHandler.cs" />
     <Compile Include="HelpersClasses\HomogeneousCoordinates.cs" />
     <Compile Include="Figures\Icosahedron.cs" />
+    <Compile Include="HelpersClasses\LightInfo.cs" />
     <Compile Include="HelpersClasses\Log.cs" />
     <Compile Include="HelpersClasses\Matrix.cs" />
     <Compile Include="HelpersClasses\Point3D.cs" />
     <Compile Include="Figures\Pyramid.cs" />
+    <Compile Include="Lighting\ColorSettingLight.cs" />
+    <Compile Include="Lighting\MovingLight.cs" />
     <Compile Include="Lighting\PointLight.cs" />
+    <Compile Include="Lighting\SourceLight.cs" />
     <Compile Include="Scene.cs" />
     <Compile Include="SharpGLForm.cs">
       <SubType>Form</SubType>
@@ -93,6 +105,9 @@
     <Compile Include="Figures\Tree.cs" />
     <Compile Include="Figures\Triangle.cs" />
     <Compile Include="HelpersClasses\Vector3d.cs" />
+    <EmbeddedResource Include="FormPerspectiveAngle.resx">
+      <DependentUpon>FormPerspectiveAngle.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

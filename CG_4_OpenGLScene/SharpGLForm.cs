@@ -23,6 +23,8 @@ namespace CG_4_OpenGLScene
         Point prevMousePos;
         Camera camera;
         ColorF clearColor;
+        double fovy = 60.0f; //угол обзора камеры
+        FormPerspectiveAngle formPers;
 
         public SharpGLForm()
         {
@@ -33,6 +35,9 @@ namespace CG_4_OpenGLScene
             string theCultureString = "en-US";
             CultureInfo ci = new CultureInfo(theCultureString);
             Thread.CurrentThread.CurrentCulture = ci;
+
+            formPers = new FormPerspectiveAngle();
+            formPers.trackBarAngle.ValueChanged += new EventHandler(trackBarAngle_ValueChanged);
         }
 
         /// <summary>
@@ -42,11 +47,8 @@ namespace CG_4_OpenGLScene
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         private void openGLControl_OpenGLInitialized(object sender, EventArgs e)
         {
-            richTextBoxLog.AppendText("openGLControl_OpenGLInitialized\r\n");
-            //  TODO: Initialise OpenGL here.
-            scene = new Scene();
-            //  Get the OpenGL object.
             OpenGL gl = openGLControl.OpenGL;
+            scene = new Scene(gl);         
 
             InitSettings(gl);
 
@@ -57,21 +59,28 @@ namespace CG_4_OpenGLScene
             //нормализовать самому, масштабировать только на одинаковые коэффициенты по осям,
             //тогда можно использовать вместо GL_NORMALIZE - GL_RESCALE_NORMAL
 
-            camera = new Camera();
+            //согласование цветов материала
+            gl.Enable(OpenGL.GL_COLOR_MATERIAL);
+            gl.ColorMaterial(OpenGL.GL_FRONT_AND_BACK, OpenGL.GL_AMBIENT_AND_DIFFUSE);
 
-            InitLight(gl);
+            //TODO:
+            //GL_BLEND (контролирует наложение RGBA величин)
+            gl.Enable(OpenGL.GL_BLEND);
+            gl.BlendFunc(OpenGL.GL_SRC_ALPHA, OpenGL.GL_ONE_MINUS_SRC_ALPHA);
+
+            camera = new Camera();
         }
 
         private void InitSettings(OpenGL gl)
         {
-            логToolStripMenuItem.Checked = true;
+            логToolStripMenuItem.Checked = false;
             richTextBoxLog.Visible = логToolStripMenuItem.Checked;
 
             плоскаяToolStripMenuItem.Checked = false;
             плаваняToolStripMenuItem.Checked = true;
             gl.ShadeModel(ShadeModel.Smooth);
 
-            показыватьОсиToolStripMenuItem.Checked = true;
+            показыватьОсиToolStripMenuItem.Checked = false;
             scene.ShowAxis = показыватьОсиToolStripMenuItem.Checked;
 
             показыватьСеткуToolStripMenuItem.Checked = false;
@@ -99,38 +108,26 @@ namespace CG_4_OpenGLScene
             сплошнойToolStripMenuItem1.Checked = false;
             openGLControl.OpenGL.PolygonMode(FaceMode.Back, PolygonMode.Lines);
 
-            gl.Disable(OpenGL.GL_CULL_FACE);
-            удалятьНелицевыеГраниToolStripMenuItem.Checked = false;
-            //TODO:
-            //GL_BLEND (контролирует наложение RGBA величин)
-            //Gl.glEnable(Gl.GL_BLEND);
-        }
+            gl.Enable(OpenGL.GL_CULL_FACE);
+            удалятьНелицевыеГраниToolStripMenuItem.Checked = true;
 
-        private void InitLight(OpenGL gl)
-        {
-            float[] mat_specular = new float[]{1.0f,1.0f,1.0f,1.0f};
-            float[]  mat_shininess = new float[]{50.0f};
-            float[]  light_position = new float[]{10.0f,10.0f,10.0f,0.0f};
-            float[]  white_light = new float[]{1.0f,1.0f,1.0f,1.0f};
-            //gl.Material(OpenGL.GL_FRONT, OpenGL.GL_SPECULAR, mat_specular);
-            //gl.Material(OpenGL.GL_FRONT, OpenGL.GL_SHININESS, mat_shininess);
-            gl.Light(OpenGL.GL_LIGHT0, OpenGL.GL_POSITION, light_position);
-            gl.Light(OpenGL.GL_LIGHT0, OpenGL.GL_DIFFUSE, white_light);
-            gl.Light(OpenGL.GL_LIGHT0, OpenGL.GL_SPECULAR, white_light);
-            //gl.Enable(OpenGL.GL_LIGHTING);
-            gl.Enable(OpenGL.GL_LIGHT0);
+            локальныйНаблюдательToolStripMenuItem.Checked = true;
+            gl.LightModel(LightModelParameter.LocalViewer, 1);
 
-            gl.LightModel(LightModelParameter.LocalViewer, OpenGL.GL_TRUE);
-            gl.LightModel(LightModelParameter.TwoSide, OpenGL.GL_TRUE);
-            float[] lmodel_ambient = new float[]{1.2f,1.2f,1.2f,1.0f};
-            //gl.LightModel(OpenGL.GL_LIGHT_MODEL_AMBIENT, lmodel_ambient);
+            двустороннееОсвещениеToolStripMenuItem.Checked = false;
+            gl.LightModel(LightModelParameter.TwoSide, 0);
 
-            gl.Light(LightName.Light1, LightParameter.Diffuse, new float[]{1f, 1f, 0, 1f});
-            gl.Light(LightName.Light1, LightParameter.Position, new float[] { 5f, 5f, 5f, 0 });
-            //gl.Enable(OpenGL.GL_LIGHT1);
+            включитьИсточник0toolStripMenuItem.Checked = false;
+            gl.Disable(OpenGL.GL_LIGHT0);
 
-            gl.Enable(OpenGL.GL_COLOR_MATERIAL);
-            gl.ColorMaterial(OpenGL.GL_FRONT_AND_BACK, OpenGL.GL_AMBIENT_AND_DIFFUSE);
+            включитьИсточник1ToolStripMenuItem.Checked = false;
+            gl.Disable(OpenGL.GL_LIGHT1);
+
+            включитьИсточник2ToolStripMenuItem.Checked = false;
+            gl.Disable(OpenGL.GL_LIGHT2);
+
+            timerMoveLight.Enabled = false;
+            движениеИсточника0ToolStripMenuItem.Checked = false;
         }
 
         /// <summary>
@@ -152,13 +149,9 @@ namespace CG_4_OpenGLScene
 
             //  Set the projection matrix.
             gl.MatrixMode(OpenGL.GL_PROJECTION);
-            PrintCurrentProjectionMatrix();
-            //  Load the identity.
             gl.LoadIdentity();
-            //gl.Ortho2D(-2, 2, -2, 2);
-            PrintCurrentProjectionMatrix();
             //  Create a perspective transformation.
-            gl.Perspective(60.0f, aspectRatio, 0.01, 100.0);
+            gl.Perspective(fovy, aspectRatio, 0.01, 100.0);
 
             gl.MatrixMode(OpenGL.GL_MODELVIEW);
             gl.LoadIdentity();
@@ -172,13 +165,11 @@ namespace CG_4_OpenGLScene
         /// <param name="e">The <see cref="RenderEventArgs"/> instance containing the event data.</param>
         private void openGLControl_OpenGLDraw(object sender, RenderEventArgs e)
         {
-            richTextBoxLog.AppendText("openGLControl_OpenGLDraw\r\n");
-            richTextBoxLog.SelectionStart = richTextBoxLog.Text.Length;
-            richTextBoxLog.ScrollToCaret();
+            //richTextBoxLog.AppendText("openGLControl_OpenGLDraw\r\n");
+            //richTextBoxLog.SelectionStart = richTextBoxLog.Text.Length;
+            //richTextBoxLog.ScrollToCaret();
             //  Get the OpenGL object.
             OpenGL gl = openGLControl.OpenGL;
-            gl.Light(LightName.Light1, LightParameter.Diffuse, new float[] { 1f, 1f, 0, 0 });
-            gl.Light(LightName.Light1, LightParameter.Position, new float[] { 5f, 5f, 5f });
 
             //  Clear the color and depth buffer.
             gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
@@ -186,6 +177,8 @@ namespace CG_4_OpenGLScene
             gl.MatrixMode(MatrixMode.Modelview);
             gl.LoadIdentity();
             camera.view(gl);
+
+            //gl.Light(OpenGL.GL_LIGHT0, OpenGL.GL_POSITION, new float[] {10,2,10,1});
             //далее модельные
             scene.Draw(gl);
 
@@ -449,6 +442,141 @@ namespace CG_4_OpenGLScene
                 openGLControl.OpenGL.Enable(OpenGL.GL_CULL_FACE);
             else
                 openGLControl.OpenGL.Disable(OpenGL.GL_CULL_FACE);
+            openGLControl.DoRender();
+        }
+
+        private void уголОбзораКамерыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!formPers.Visible)
+            {
+                formPers.trackBarAngle.Value = (int)fovy;
+                formPers.Show(this);
+            }
+        }
+
+        void trackBarAngle_ValueChanged(object sender, EventArgs e)
+        {
+            fovy = formPers.trackBarAngle.Value;
+            openGLControl_Resized(null, null);
+            openGLControl.DoRender();
+        }
+
+        private void информацияОбИсточникеСвета0ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(LightInfo.GetInfo(openGLControl.OpenGL, OpenGL.GL_LIGHT0));
+        }
+
+        private void информацияОбИсточникеСвета1ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(LightInfo.GetInfo(openGLControl.OpenGL, OpenGL.GL_LIGHT1));
+        }
+
+        private void информацияОбИсточникеСвета2ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(LightInfo.GetInfo(openGLControl.OpenGL, OpenGL.GL_LIGHT2));
+        }
+
+        private void информацияОМоделиОсвещенияToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(LightInfo.GetInfoLightModel(openGLControl.OpenGL));
+        }
+
+        private void фоновыйЦветToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenGL gl = openGLControl.OpenGL;
+            float[] float4 = new float[4];
+            gl.GetFloat(GetTarget.LightModelAmbient, float4);
+            colorDialogAmbient.Color = Color.FromArgb((int)(float4[3] * 255),
+                (int)(float4[0] * 255), (int)(float4[1] * 255), (int)(float4[2] * 255));
+            if (colorDialogAmbient.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                ColorF newAmbientColor = new ColorF(colorDialogAmbient.Color);
+                gl.LightModel(LightModelParameter.Ambient, newAmbientColor.GetInArrWithAlpha());
+                openGLControl.DoRender();
+            }
+        }
+
+        private void локальныйНаблюдательToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = sender as ToolStripMenuItem;
+            if (item == null)
+                return;
+            item.Checked = !item.Checked;
+            if (item.Checked)
+                openGLControl.OpenGL.LightModel(LightModelParameter.LocalViewer, 1);
+            else
+                openGLControl.OpenGL.LightModel(LightModelParameter.LocalViewer, 0);
+            openGLControl.DoRender();
+        }
+
+        private void включитьИсточник1ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = sender as ToolStripMenuItem;
+            if (item == null)
+                return;
+            item.Checked = !item.Checked;
+            if (item.Checked)
+                openGLControl.OpenGL.Enable(OpenGL.GL_LIGHT1);
+            else
+                openGLControl.OpenGL.Disable(OpenGL.GL_LIGHT1);
+            openGLControl.DoRender();
+        }
+
+        private void включитьИсточник2ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = sender as ToolStripMenuItem;
+            if (item == null)
+                return;
+            item.Checked = !item.Checked;
+            if (item.Checked)
+                openGLControl.OpenGL.Enable(OpenGL.GL_LIGHT2);
+            else
+                openGLControl.OpenGL.Disable(OpenGL.GL_LIGHT2);
+            openGLControl.DoRender();
+        }
+
+        private void включитьИсточник0toolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = sender as ToolStripMenuItem;
+            if (item == null)
+                return;
+            item.Checked = !item.Checked;
+            if (item.Checked)
+                openGLControl.OpenGL.Enable(OpenGL.GL_LIGHT0);
+            else
+                openGLControl.OpenGL.Disable(OpenGL.GL_LIGHT0);
+            openGLControl.DoRender();
+        }
+
+        private void двустороннееОсвещениеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = sender as ToolStripMenuItem;
+            if (item == null)
+                return;
+            item.Checked = !item.Checked;
+            if (item.Checked)
+                openGLControl.OpenGL.LightModel(LightModelParameter.TwoSide, 1);
+            else
+                openGLControl.OpenGL.LightModel(LightModelParameter.TwoSide, 0);
+            openGLControl.DoRender();
+        }
+
+        private void timerMoveLight_Tick(object sender, EventArgs e)
+        {
+            scene.MoveLight();
+            openGLControl.DoRender();
+        }
+
+        private void движениеИсточника0ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = sender as ToolStripMenuItem;
+            if (item == null)
+                return;
+            item.Checked = !item.Checked;
+            if (item.Checked)
+                timerMoveLight.Enabled = true;
+            else
+                timerMoveLight.Enabled = false;
             openGLControl.DoRender();
         }
     }

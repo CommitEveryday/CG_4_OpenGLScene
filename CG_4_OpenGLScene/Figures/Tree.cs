@@ -25,9 +25,9 @@ namespace CG_4_OpenGLScene
         {
             //float defaultHeight = 0.3f * 3 + 0.2f;
             gl.PushMatrix();
-            gl.Scale(scaleKoef, scaleKoef, scaleKoef);
             gl.Translate(position.x, position.y, position.z);
             gl.Rotate(-90, 1, 0, 0);
+            gl.Scale(scaleKoef, scaleKoef, scaleKoef);
             //gl.Color(color.GetInArr());
             //float curHeight = 0.25f;
 

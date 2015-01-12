@@ -41,7 +41,7 @@ namespace CG_4_OpenGLScene
                     //gl.Vertex(x, y);
                     if (prevPoint != null)
                     {
-                        DrawPrimitive.Triangle(gl, top, prevPoint, new Point3D(x,y), true);
+                        DrawPrimitive.Triangle(gl, top, prevPoint, new Point3D(x,y), false);
                     }
                     prevPoint = new Point3D(x, y);
                 }

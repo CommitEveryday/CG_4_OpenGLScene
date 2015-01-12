@@ -7,6 +7,7 @@ namespace CG_4_OpenGLScene.Lighting
 {
     using CG_4_OpenGLScene;
     using SharpGL.Enumerations;
+    using SharpGL;
 
     class PointLight : AbstractFigure
     {
