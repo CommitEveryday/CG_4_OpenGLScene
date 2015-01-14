@@ -39,9 +39,9 @@ namespace CG_4_OpenGLScene
             ShowGrid = false;
             axis = new Axis(new Point3D(), 10);
             grid = new Grid(new ColorF(0.5f, 0.5f, 0.5f), new Point3D());
-            //TODO задание параметро объектов сцены
             figs = new List<AbstractFigure>();
-            figs.Add(new Ground(new ColorF(0.5f, 0.5f, 0.5f), new Point3D(0, 0, 0), 20, 20));
+            //для отражения рисуем в другом месте отдельно
+            figs.Add(new Ground(new ColorF(0.5f, 0.5f, 0.5f), new Point3D(0, 0, 0), 200, 200));
             float[] greencolor = new float[] { 0.2f, 0.8f, 0.0f, 1f };//   # Зеленый цвет для иголок
             float[] treecolor = new float[] { 0.9f, 0.6f, 0.3f, 1f };//    # Коричневый цвет для ствола
             figs.Add(new Tree(new ColorF(greencolor[0], greencolor[1], greencolor[2], greencolor[3]),
@@ -95,7 +95,21 @@ namespace CG_4_OpenGLScene
                 axis.Draw(gl);
             if (ShowGrid)
                 grid.Draw(gl);
+            //версия с отражением от пола
+            //gl.PushMatrix();
+            //gl.PushAttrib(AttributeMask.All);
+            //gl.Scale(1, -1, 1);
+            //gl.FrontFace(OpenGL.GL_CW);
+            //figs.ForEach(x => x.Draw(gl));
+            //gl.PopMatrix();
+            //gl.Enable(OpenGL.GL_BLEND);
+            //gl.FrontFace(OpenGL.GL_CCW);
+            //(new Ground(new ColorF(0.5f, 0.5f, 0.5f, 0.8f), new Point3D(0, 0, 0), 200, 200)).Draw(gl);
+            //gl.PopAttrib();
+
+            //без отражения
             figs.ForEach(x => x.Draw(gl));
+            
         }
 
         public bool AddFigure(AbstractFigure fig)
@@ -109,6 +123,11 @@ namespace CG_4_OpenGLScene
         public void MoveLight()
         {
             light0.Move();
+        }
+
+        public void SetColorForLight0(ColorSettingLight colorSet)
+        {
+            light0.SetColorSet(colorSet);
         }
     }
 }

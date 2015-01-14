@@ -55,25 +55,28 @@
             this.открытьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.освещениеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.включитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.включитьИсточник0toolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.включитьИсточник1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.включитьИсточник2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.движениеИсточника0ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.отладкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.информацияОбИсточникеСвета0ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
-            this.contextMenuStripLog = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.очиститьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.colorDialogClear = new System.Windows.Forms.ColorDialog();
             this.информацияОбИсточникеСвета1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.информацияОбИсточникеСвета2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.информацияОМоделиОсвещенияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.модельОсвещенияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.фоновыйЦветToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.colorDialogAmbient = new System.Windows.Forms.ColorDialog();
             this.локальныйНаблюдательToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.включитьИсточник1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.включитьИсточник2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.включитьИсточник0toolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.двустороннееОсвещениеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
+            this.contextMenuStripLog = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.очиститьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.colorDialogClear = new System.Windows.Forms.ColorDialog();
+            this.colorDialogAmbient = new System.Windows.Forms.ColorDialog();
             this.timerMoveLight = new System.Windows.Forms.Timer(this.components);
-            this.движениеИсточника0ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.colorDialogLight0Diffuse = new System.Windows.Forms.ColorDialog();
+            this.диффузныйСветИсточника0ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.смещиваниеЦветовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.openGLControl)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStripLog.SuspendLayout();
@@ -123,7 +126,8 @@
             this.режимОтображенияЛицевыхГранейToolStripMenuItem,
             this.режимОтображенияОбратныхГранейToolStripMenuItem,
             this.удалятьНелицевыеГраниToolStripMenuItem,
-            this.уголОбзораКамерыToolStripMenuItem});
+            this.уголОбзораКамерыToolStripMenuItem,
+            this.смещиваниеЦветовToolStripMenuItem});
             this.параметрыToolStripMenuItem.Name = "параметрыToolStripMenuItem";
             this.параметрыToolStripMenuItem.Size = new System.Drawing.Size(76, 20);
             this.параметрыToolStripMenuItem.Text = "Параметры";
@@ -296,7 +300,8 @@
             this.включитьИсточник0toolStripMenuItem,
             this.включитьИсточник1ToolStripMenuItem,
             this.включитьИсточник2ToolStripMenuItem,
-            this.движениеИсточника0ToolStripMenuItem});
+            this.движениеИсточника0ToolStripMenuItem,
+            this.диффузныйСветИсточника0ToolStripMenuItem});
             this.освещениеToolStripMenuItem.Name = "освещениеToolStripMenuItem";
             this.освещениеToolStripMenuItem.Size = new System.Drawing.Size(77, 20);
             this.освещениеToolStripMenuItem.Text = "Освещение";
@@ -304,9 +309,37 @@
             // включитьToolStripMenuItem
             // 
             this.включитьToolStripMenuItem.Name = "включитьToolStripMenuItem";
-            this.включитьToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.включитьToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.включитьToolStripMenuItem.Text = "Включить";
             this.включитьToolStripMenuItem.Click += new System.EventHandler(this.включитьToolStripMenuItem_Click);
+            // 
+            // включитьИсточник0toolStripMenuItem
+            // 
+            this.включитьИсточник0toolStripMenuItem.Name = "включитьИсточник0toolStripMenuItem";
+            this.включитьИсточник0toolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.включитьИсточник0toolStripMenuItem.Text = "Включить источник 0";
+            this.включитьИсточник0toolStripMenuItem.Click += new System.EventHandler(this.включитьИсточник0toolStripMenuItem_Click);
+            // 
+            // включитьИсточник1ToolStripMenuItem
+            // 
+            this.включитьИсточник1ToolStripMenuItem.Name = "включитьИсточник1ToolStripMenuItem";
+            this.включитьИсточник1ToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.включитьИсточник1ToolStripMenuItem.Text = "Включить источник 1";
+            this.включитьИсточник1ToolStripMenuItem.Click += new System.EventHandler(this.включитьИсточник1ToolStripMenuItem_Click);
+            // 
+            // включитьИсточник2ToolStripMenuItem
+            // 
+            this.включитьИсточник2ToolStripMenuItem.Name = "включитьИсточник2ToolStripMenuItem";
+            this.включитьИсточник2ToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.включитьИсточник2ToolStripMenuItem.Text = "Включить источник 2";
+            this.включитьИсточник2ToolStripMenuItem.Click += new System.EventHandler(this.включитьИсточник2ToolStripMenuItem_Click);
+            // 
+            // движениеИсточника0ToolStripMenuItem
+            // 
+            this.движениеИсточника0ToolStripMenuItem.Name = "движениеИсточника0ToolStripMenuItem";
+            this.движениеИсточника0ToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.движениеИсточника0ToolStripMenuItem.Text = "Движение источника 0";
+            this.движениеИсточника0ToolStripMenuItem.Click += new System.EventHandler(this.движениеИсточника0ToolStripMenuItem_Click);
             // 
             // отладкаToolStripMenuItem
             // 
@@ -325,36 +358,6 @@
             this.информацияОбИсточникеСвета0ToolStripMenuItem.Size = new System.Drawing.Size(272, 22);
             this.информацияОбИсточникеСвета0ToolStripMenuItem.Text = "Информация об источнике света 0...";
             this.информацияОбИсточникеСвета0ToolStripMenuItem.Click += new System.EventHandler(this.информацияОбИсточникеСвета0ToolStripMenuItem_Click);
-            // 
-            // richTextBoxLog
-            // 
-            this.richTextBoxLog.ContextMenuStrip = this.contextMenuStripLog;
-            this.richTextBoxLog.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.richTextBoxLog.Location = new System.Drawing.Point(0, 295);
-            this.richTextBoxLog.Name = "richTextBoxLog";
-            this.richTextBoxLog.Size = new System.Drawing.Size(624, 96);
-            this.richTextBoxLog.TabIndex = 2;
-            this.richTextBoxLog.Text = "";
-            this.richTextBoxLog.WordWrap = false;
-            // 
-            // contextMenuStripLog
-            // 
-            this.contextMenuStripLog.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.очиститьToolStripMenuItem});
-            this.contextMenuStripLog.Name = "contextMenuStripLog";
-            this.contextMenuStripLog.ShowImageMargin = false;
-            this.contextMenuStripLog.Size = new System.Drawing.Size(110, 26);
-            // 
-            // очиститьToolStripMenuItem
-            // 
-            this.очиститьToolStripMenuItem.Name = "очиститьToolStripMenuItem";
-            this.очиститьToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
-            this.очиститьToolStripMenuItem.Text = "Очистить";
-            this.очиститьToolStripMenuItem.Click += new System.EventHandler(this.очиститьToolStripMenuItem_Click);
-            // 
-            // colorDialogClear
-            // 
-            this.colorDialogClear.FullOpen = true;
             // 
             // информацияОбИсточникеСвета1ToolStripMenuItem
             // 
@@ -391,12 +394,8 @@
             // 
             this.фоновыйЦветToolStripMenuItem.Name = "фоновыйЦветToolStripMenuItem";
             this.фоновыйЦветToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
-            this.фоновыйЦветToolStripMenuItem.Text = "Фоновый цвет...";
+            this.фоновыйЦветToolStripMenuItem.Text = "Фоновый свет...";
             this.фоновыйЦветToolStripMenuItem.Click += new System.EventHandler(this.фоновыйЦветToolStripMenuItem_Click);
-            // 
-            // colorDialogAmbient
-            // 
-            this.colorDialogAmbient.FullOpen = true;
             // 
             // локальныйНаблюдательToolStripMenuItem
             // 
@@ -405,27 +404,6 @@
             this.локальныйНаблюдательToolStripMenuItem.Text = "Локальный наблюдатель";
             this.локальныйНаблюдательToolStripMenuItem.Click += new System.EventHandler(this.локальныйНаблюдательToolStripMenuItem_Click);
             // 
-            // включитьИсточник1ToolStripMenuItem
-            // 
-            this.включитьИсточник1ToolStripMenuItem.Name = "включитьИсточник1ToolStripMenuItem";
-            this.включитьИсточник1ToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.включитьИсточник1ToolStripMenuItem.Text = "Включить источник 1";
-            this.включитьИсточник1ToolStripMenuItem.Click += new System.EventHandler(this.включитьИсточник1ToolStripMenuItem_Click);
-            // 
-            // включитьИсточник2ToolStripMenuItem
-            // 
-            this.включитьИсточник2ToolStripMenuItem.Name = "включитьИсточник2ToolStripMenuItem";
-            this.включитьИсточник2ToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.включитьИсточник2ToolStripMenuItem.Text = "Включить источник 2";
-            this.включитьИсточник2ToolStripMenuItem.Click += new System.EventHandler(this.включитьИсточник2ToolStripMenuItem_Click);
-            // 
-            // включитьИсточник0toolStripMenuItem
-            // 
-            this.включитьИсточник0toolStripMenuItem.Name = "включитьИсточник0toolStripMenuItem";
-            this.включитьИсточник0toolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.включитьИсточник0toolStripMenuItem.Text = "Включить источник 0";
-            this.включитьИсточник0toolStripMenuItem.Click += new System.EventHandler(this.включитьИсточник0toolStripMenuItem_Click);
-            // 
             // двустороннееОсвещениеToolStripMenuItem
             // 
             this.двустороннееОсвещениеToolStripMenuItem.Name = "двустороннееОсвещениеToolStripMenuItem";
@@ -433,17 +411,62 @@
             this.двустороннееОсвещениеToolStripMenuItem.Text = "Двустороннее освещение";
             this.двустороннееОсвещениеToolStripMenuItem.Click += new System.EventHandler(this.двустороннееОсвещениеToolStripMenuItem_Click);
             // 
+            // richTextBoxLog
+            // 
+            this.richTextBoxLog.ContextMenuStrip = this.contextMenuStripLog;
+            this.richTextBoxLog.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.richTextBoxLog.Location = new System.Drawing.Point(0, 295);
+            this.richTextBoxLog.Name = "richTextBoxLog";
+            this.richTextBoxLog.Size = new System.Drawing.Size(624, 96);
+            this.richTextBoxLog.TabIndex = 2;
+            this.richTextBoxLog.Text = "";
+            this.richTextBoxLog.WordWrap = false;
+            // 
+            // contextMenuStripLog
+            // 
+            this.contextMenuStripLog.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.очиститьToolStripMenuItem});
+            this.contextMenuStripLog.Name = "contextMenuStripLog";
+            this.contextMenuStripLog.ShowImageMargin = false;
+            this.contextMenuStripLog.Size = new System.Drawing.Size(110, 26);
+            // 
+            // очиститьToolStripMenuItem
+            // 
+            this.очиститьToolStripMenuItem.Name = "очиститьToolStripMenuItem";
+            this.очиститьToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.очиститьToolStripMenuItem.Text = "Очистить";
+            this.очиститьToolStripMenuItem.Click += new System.EventHandler(this.очиститьToolStripMenuItem_Click);
+            // 
+            // colorDialogClear
+            // 
+            this.colorDialogClear.FullOpen = true;
+            // 
+            // colorDialogAmbient
+            // 
+            this.colorDialogAmbient.FullOpen = true;
+            // 
             // timerMoveLight
             // 
             this.timerMoveLight.Interval = 200;
             this.timerMoveLight.Tick += new System.EventHandler(this.timerMoveLight_Tick);
             // 
-            // движениеИсточника0ToolStripMenuItem
+            // colorDialogLight0Diffuse
             // 
-            this.движениеИсточника0ToolStripMenuItem.Name = "движениеИсточника0ToolStripMenuItem";
-            this.движениеИсточника0ToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-            this.движениеИсточника0ToolStripMenuItem.Text = "Движение источника 0";
-            this.движениеИсточника0ToolStripMenuItem.Click += new System.EventHandler(this.движениеИсточника0ToolStripMenuItem_Click);
+            this.colorDialogLight0Diffuse.FullOpen = true;
+            // 
+            // диффузныйСветИсточника0ToolStripMenuItem
+            // 
+            this.диффузныйСветИсточника0ToolStripMenuItem.Name = "диффузныйСветИсточника0ToolStripMenuItem";
+            this.диффузныйСветИсточника0ToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
+            this.диффузныйСветИсточника0ToolStripMenuItem.Text = "Диффузный свет источника 0...";
+            this.диффузныйСветИсточника0ToolStripMenuItem.Click += new System.EventHandler(this.диффузныйСветИсточника0ToolStripMenuItem_Click);
+            // 
+            // смещиваниеЦветовToolStripMenuItem
+            // 
+            this.смещиваниеЦветовToolStripMenuItem.Name = "смещиваниеЦветовToolStripMenuItem";
+            this.смещиваниеЦветовToolStripMenuItem.Size = new System.Drawing.Size(279, 22);
+            this.смещиваниеЦветовToolStripMenuItem.Text = "Смещивание цветов";
+            this.смещиваниеЦветовToolStripMenuItem.Click += new System.EventHandler(this.смещиваниеЦветовToolStripMenuItem_Click);
             // 
             // SharpGLForm
             // 
@@ -512,6 +535,9 @@
         private System.Windows.Forms.ToolStripMenuItem двустороннееОсвещениеToolStripMenuItem;
         private System.Windows.Forms.Timer timerMoveLight;
         private System.Windows.Forms.ToolStripMenuItem движениеИсточника0ToolStripMenuItem;
+        private System.Windows.Forms.ColorDialog colorDialogLight0Diffuse;
+        private System.Windows.Forms.ToolStripMenuItem диффузныйСветИсточника0ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem смещиваниеЦветовToolStripMenuItem;
     }
 }
 

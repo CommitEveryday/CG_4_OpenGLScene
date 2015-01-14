@@ -13,6 +13,7 @@ using FileFormatWavefront;
 using FileFormatWavefront.Model;
 using System.Globalization;
 using System.Threading;
+using CG_4_OpenGLScene.Lighting;
 
 namespace CG_4_OpenGLScene
 {
@@ -25,6 +26,7 @@ namespace CG_4_OpenGLScene
         ColorF clearColor;
         double fovy = 60.0f; //угол обзора камеры
         FormPerspectiveAngle formPers;
+        ColorSettingLight colorSet0;
 
         public SharpGLForm()
         {
@@ -63,12 +65,23 @@ namespace CG_4_OpenGLScene
             gl.Enable(OpenGL.GL_COLOR_MATERIAL);
             gl.ColorMaterial(OpenGL.GL_FRONT_AND_BACK, OpenGL.GL_AMBIENT_AND_DIFFUSE);
 
-            //TODO:
-            //GL_BLEND (контролирует наложение RGBA величин)
-            gl.Enable(OpenGL.GL_BLEND);
             gl.BlendFunc(OpenGL.GL_SRC_ALPHA, OpenGL.GL_ONE_MINUS_SRC_ALPHA);
+            //gl.BlendFunc(OpenGL.GL_ONE, OpenGL.GL_ZERO);
 
             camera = new Camera();
+
+            //установка начального цвета источника0
+            colorSet0.Ambient = new ColorF(0, 0, 0, 1);
+            colorSet0.Specular = new ColorF(1f, 1f, 1f, 1);
+            colorSet0.Diffuse = new ColorF(0f, 0.8f, 0, 1);
+            scene.SetColorForLight0(colorSet0);
+
+            //туман
+            //gl.Enable(OpenGL.GL_FOG);
+            gl.Fog(OpenGL.GL_FOG_START, 5);
+            gl.Fog(OpenGL.GL_FOG_END, 30);
+            gl.Fog(OpenGL.GL_FOG_MODE, OpenGL.GL_LINEAR);
+            gl.Fog(OpenGL.GL_FOG_COLOR, new float[] { clearColor.r, clearColor.g, clearColor.b, clearColor.alpha });
         }
 
         private void InitSettings(OpenGL gl)
@@ -128,6 +141,10 @@ namespace CG_4_OpenGLScene
 
             timerMoveLight.Enabled = false;
             движениеИсточника0ToolStripMenuItem.Checked = false;
+
+            //GL_BLEND (контролирует наложение RGBA величин)
+            смещиваниеЦветовToolStripMenuItem.Checked = true;
+            gl.Enable(OpenGL.GL_BLEND);
         }
 
         /// <summary>
@@ -348,6 +365,7 @@ namespace CG_4_OpenGLScene
                 clearColor = new ColorF(colorDialogClear.Color);
                 OpenGL gl = openGLControl.OpenGL;
                 gl.ClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.alpha);
+                gl.Fog(OpenGL.GL_FOG_COLOR, new float[] { clearColor.r, clearColor.g, clearColor.b, clearColor.alpha });
                 openGLControl.DoRender();
             }
         }
@@ -577,6 +595,36 @@ namespace CG_4_OpenGLScene
                 timerMoveLight.Enabled = true;
             else
                 timerMoveLight.Enabled = false;
+            openGLControl.DoRender();
+        }
+
+        private void диффузныйСветИсточника0ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+            OpenGL gl = openGLControl.OpenGL;
+            float[] float4 = new float[4];
+            gl.GetLight(OpenGL.GL_LIGHT0, OpenGL.GL_DIFFUSE, float4);
+            colorDialogLight0Diffuse.Color = Color.FromArgb((int)(float4[3] * 255),
+                (int)(float4[0] * 255), (int)(float4[1] * 255), (int)(float4[2] * 255));
+            if (colorDialogLight0Diffuse.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                ColorF newDiff0Color = new ColorF(colorDialogLight0Diffuse.Color);
+                colorSet0.Diffuse = newDiff0Color;
+                scene.SetColorForLight0(colorSet0);
+                openGLControl.DoRender();
+            }
+        }
+
+        private void смещиваниеЦветовToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = sender as ToolStripMenuItem;
+            if (item == null)
+                return;
+            item.Checked = !item.Checked;
+            if (item.Checked)
+                openGLControl.OpenGL.Enable(OpenGL.GL_BLEND);
+            else
+                openGLControl.OpenGL.Disable(OpenGL.GL_BLEND);
             openGLControl.DoRender();
         }
     }
