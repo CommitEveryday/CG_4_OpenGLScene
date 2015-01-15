@@ -87,6 +87,9 @@ namespace CG_4_OpenGLScene
             //text.Create(gl, @"E:\Downloads\mytexture.bmp");
             figs.Add(new Parallelepiped(new ColorF(Color.White), new Point3D(-5, 0, -5), 5, 4, 6, text));
 
+            //for (int i = 2; i<100; i++)
+            //    figs.Add(new Cube(new ColorF(Color.LemonChiffon), new Point3D(-5*i, 0, -5), 2));
+
             text = new Texture();
             text.Create(gl, @"Texture\marble_table.jpg");
             
