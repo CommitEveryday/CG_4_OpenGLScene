@@ -14,6 +14,7 @@ using FileFormatWavefront.Model;
 using System.Globalization;
 using System.Threading;
 using CG_4_OpenGLScene.Lighting;
+using SharpGL.SceneGraph.Assets;
 
 namespace CG_4_OpenGLScene
 {
@@ -319,8 +320,16 @@ namespace CG_4_OpenGLScene
             openDialog.Filter = "OBJ|*.obj";
             if (openDialog.ShowDialog() == DialogResult.OK)
             {
-                scene.AddFigure(new FigureFromOBJ(new ColorF(Color.DarkOliveGreen), new Point3D(),
-                    openDialog.FileName));
+                Texture text = new Texture();
+                text.Create(openGLControl.OpenGL, @"E:\Downloads\chess figure\Wood.jpg");
+                Texture text_white = new Texture();
+                text_white.Create(openGLControl.OpenGL, @"E:\Downloads\wood_white.jpg");
+                scene.AddFigure(new FigureFromOBJ(new ColorF(Color.White), new Point3D(10, 0, 5),
+                    openDialog.FileName, text_white));
+                Texture text_black = new Texture();
+                text_black.Create(openGLControl.OpenGL, @"E:\Downloads\wood_black.jpg");
+                scene.AddFigure(new FigureFromOBJ(new ColorF(Color.White), new Point3D(5, 0, 5),
+                    openDialog.FileName, text_black));
                 openGLControl.DoRender();
                 return;
                 var result = FileFormatObj.Load(openDialog.FileName);

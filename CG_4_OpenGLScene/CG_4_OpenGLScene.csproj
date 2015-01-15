@@ -66,9 +66,12 @@
     <Compile Include="Figures\AbstractFigure.cs" />
     <Compile Include="Figures\Axis.cs" />
     <Compile Include="Camera.cs" />
+    <Compile Include="Figures\Board.cs" />
     <Compile Include="Figures\FigureFromOBJ.cs" />
     <Compile Include="Figures\IcosahedronAsSphere.cs" />
+    <Compile Include="Figures\Parallelepiped.cs" />
     <Compile Include="Figures\SphereFromIcosahedron.cs" />
+    <Compile Include="Figures\Table.cs" />
     <Compile Include="FormPerspectiveAngle.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -122,6 +125,9 @@
       <DependentUpon>SharpGLForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="ObjModel\p.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -132,7 +138,26 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Texture\chess_board.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Texture\chess_board2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Texture\marble_table.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Texture\wood.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Texture\wood_black.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Texture\wood_white.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <ItemGroup>
     <None Include="Dependencies\SharpGL.dll" />
     <None Include="Dependencies\SharpGL.SceneGraph.dll" />
