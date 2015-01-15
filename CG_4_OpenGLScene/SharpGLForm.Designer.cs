@@ -89,7 +89,7 @@
             this.openGLControl.Location = new System.Drawing.Point(0, 24);
             this.openGLControl.Name = "openGLControl";
             this.openGLControl.OpenGLVersion = SharpGL.Version.OpenGLVersion.OpenGL2_1;
-            this.openGLControl.RenderContextType = SharpGL.RenderContextType.DIBSection;
+            this.openGLControl.RenderContextType = SharpGL.RenderContextType.NativeWindow;
             this.openGLControl.RenderTrigger = SharpGL.RenderTrigger.Manual;
             this.openGLControl.Size = new System.Drawing.Size(624, 271);
             this.openGLControl.TabIndex = 0;
