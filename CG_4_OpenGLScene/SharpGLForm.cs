@@ -321,13 +321,13 @@ namespace CG_4_OpenGLScene
             if (openDialog.ShowDialog() == DialogResult.OK)
             {
                 Texture text = new Texture();
-                text.Create(openGLControl.OpenGL, @"E:\Downloads\chess figure\Wood.jpg");
+                text.Create(openGLControl.OpenGL, @"Texture\wood.jpg");
                 Texture text_white = new Texture();
-                text_white.Create(openGLControl.OpenGL, @"E:\Downloads\wood_white.jpg");
+                text_white.Create(openGLControl.OpenGL, @"Texture\wood_white.jpg");
                 scene.AddFigure(new FigureFromOBJ(new ColorF(Color.White), new Point3D(10, 0, 5),
                     openDialog.FileName, text_white));
                 Texture text_black = new Texture();
-                text_black.Create(openGLControl.OpenGL, @"E:\Downloads\wood_black.jpg");
+                text_black.Create(openGLControl.OpenGL, @"Texture\wood_black.jpg");
                 scene.AddFigure(new FigureFromOBJ(new ColorF(Color.White), new Point3D(5, 0, 5),
                     openDialog.FileName, text_black));
                 openGLControl.DoRender();

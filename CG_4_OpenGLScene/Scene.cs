@@ -83,9 +83,9 @@ namespace CG_4_OpenGLScene
             light1 = new SourceLight(gl, LightName.Light1, new HomogeneousCoordinates(-1, 1, -1, 0), colorSet);
 
             Texture text = new Texture();
-            text.Create(gl, @"E:\Downloads\stone_1.jpg");
+            text.Create(gl, @"Texture\wood.jpg");
             //text.Create(gl, @"E:\Downloads\mytexture.bmp");
-            figs.Add(new Parallelepiped(new ColorF(Color.White), new Point3D(-5, 0, -5), 3, 4, 1, text));
+            figs.Add(new Parallelepiped(new ColorF(Color.White), new Point3D(-5, 0, -5), 5, 4, 6, text));
 
             text = new Texture();
             text.Create(gl, @"Texture\marble_table.jpg");
