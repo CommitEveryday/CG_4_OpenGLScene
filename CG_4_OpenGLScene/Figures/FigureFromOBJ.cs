@@ -68,14 +68,15 @@ namespace CG_4_OpenGLScene
                 gl.End();
             }
 
-            StringBuilder sb = new StringBuilder();
-            foreach (var message in result.Messages)
-            {
-                sb.Append(String.Format("{0}: {1}", message.MessageType, message.Details) + Environment.NewLine);
-                sb.Append(String.Format("{0}: {1}", message.FileName, message.LineNumber) + Environment.NewLine);
-            }
-            if (sb.Length > 0)
-                System.Windows.Forms.MessageBox.Show(sb.ToString());
+            //MessageBox зло
+            //StringBuilder sb = new StringBuilder();
+            //foreach (var message in result.Messages)
+            //{
+            //    sb.Append(String.Format("{0}: {1}", message.MessageType, message.Details) + Environment.NewLine);
+            //    sb.Append(String.Format("{0}: {1}", message.FileName, message.LineNumber) + Environment.NewLine);
+            //}
+            //if (sb.Length > 0)
+            //    System.Windows.Forms.MessageBox.Show(sb.ToString());
             gl.PopMatrix();
             gl.PopAttrib();
         }
