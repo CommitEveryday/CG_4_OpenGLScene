@@ -39,7 +39,8 @@ dlldata.c
 *_i.h
 *.ilk
 *.meta
-*.obj
+# disable for Wavefront 3D model format
+# *.obj
 *.pch
 *.pdb
 *.pgc
