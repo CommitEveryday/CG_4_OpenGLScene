@@ -15,6 +15,7 @@ using System.Globalization;
 using System.Threading;
 using CG_4_OpenGLScene.Lighting;
 using SharpGL.SceneGraph.Assets;
+using CG_4_OpenGLScene.Figures;
 
 namespace CG_4_OpenGLScene
 {
@@ -32,12 +33,6 @@ namespace CG_4_OpenGLScene
         public SharpGLForm()
         {
             InitializeComponent();
-            //! в библиотеке FileFormatWavefront использутеся float.parse без указания CultureInfo
-            //используется системный разделитель в вещественном числе, который в русской локале запятая
-            //в obj файле разделителем является точка
-            string theCultureString = "en-US";
-            CultureInfo ci = new CultureInfo(theCultureString);
-            Thread.CurrentThread.CurrentCulture = ci;
 
             formPers = new FormPerspectiveAngle();
             formPers.trackBarAngle.ValueChanged += new EventHandler(trackBarAngle_ValueChanged);
@@ -50,6 +45,13 @@ namespace CG_4_OpenGLScene
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         private void openGLControl_OpenGLInitialized(object sender, EventArgs e)
         {
+            //! в библиотеке FileFormatWavefront использутеся float.parse без указания CultureInfo
+            //используется системный разделитель в вещественном числе, который в русской локале запятая
+            //в obj файле разделителем является точка
+            string theCultureString = "en-US";
+            CultureInfo ci = new CultureInfo(theCultureString);
+            Thread.CurrentThread.CurrentCulture = ci;
+
             OpenGL gl = openGLControl.OpenGL;
             scene = new Scene(gl);         
 
@@ -83,6 +85,10 @@ namespace CG_4_OpenGLScene
             gl.Fog(OpenGL.GL_FOG_END, 30);
             gl.Fog(OpenGL.GL_FOG_MODE, OpenGL.GL_LINEAR);
             gl.Fog(OpenGL.GL_FOG_COLOR, new float[] { clearColor.r, clearColor.g, clearColor.b, clearColor.alpha });
+
+            //по умолчанию и так
+            //gl.TexParameter(OpenGL.GL_TEXTURE_2D, OpenGL.GL_TEXTURE_WRAP_S, OpenGL.GL_REPEAT);
+            //gl.TexParameter(OpenGL.GL_TEXTURE_2D, OpenGL.GL_TEXTURE_WRAP_T, OpenGL.GL_REPEAT);
         }
 
         private void InitSettings(OpenGL gl)
@@ -146,6 +152,9 @@ namespace CG_4_OpenGLScene
             //GL_BLEND (контролирует наложение RGBA величин)
             смещиваниеЦветовToolStripMenuItem.Checked = true;
             gl.Enable(OpenGL.GL_BLEND);
+
+            openGLControl.OpenGL.LightModel(OpenGL.GL_LIGHT_MODEL_COLOR_CONTROL_EXT, OpenGL.GL_SEPARATE_SPECULAR_COLOR_EXT);
+            зеркальноеОтражениеНаТекстурахToolStripMenuItem.Checked = true;
         }
 
         /// <summary>
@@ -320,46 +329,7 @@ namespace CG_4_OpenGLScene
             openDialog.Filter = "OBJ|*.obj";
             if (openDialog.ShowDialog() == DialogResult.OK)
             {
-                Texture text = new Texture();
-                text.Create(openGLControl.OpenGL, @"Texture\wood.jpg");
-                Texture text_white = new Texture();
-                text_white.Create(openGLControl.OpenGL, @"Texture\wood_white.jpg");
-                scene.AddFigure(new FigureFromOBJ(new ColorF(Color.White), new Point3D(10, 0, 5),
-                    openDialog.FileName, text_white));
-                Texture text_black = new Texture();
-                text_black.Create(openGLControl.OpenGL, @"Texture\wood_black.jpg");
-                scene.AddFigure(new FigureFromOBJ(new ColorF(Color.White), new Point3D(5, 0, 5),
-                    openDialog.FileName, text_black));
                 openGLControl.DoRender();
-                return;
-                var result = FileFormatObj.Load(openDialog.FileName);
-                //  Show each vertex.
-                richTextBoxLog.AppendText(String.Format("Show each vertex.") + Environment.NewLine);
-                foreach (Vertex v in result.Model.Vertices)
-                {
-                    richTextBoxLog.AppendText(String.Format("{0} {1} {2}", v.x, v.y, v.z) + Environment.NewLine);
-                }
-
-                richTextBoxLog.AppendText(String.Format("Groups") + Environment.NewLine);
-                result.Model.Groups.ToList().ForEach(x => x.Faces.ToList().ForEach(f=>{string s = "";
-                f.Indices.ToList().ForEach(i => s = s+i.vertex + " "); richTextBoxLog.AppendText(s + Environment.NewLine);
-                }));
-
-                richTextBoxLog.AppendText(String.Format("UngroupedFaces") + Environment.NewLine);
-                result.Model.UngroupedFaces.ToList().ForEach(f =>
-                {
-                    string s = "";
-                    f.Indices.ToList().ForEach(i => s = s + i.vertex + " "); richTextBoxLog.AppendText(s + Environment.NewLine);
-                });
-                result.Model.UngroupedFaces.ToList().ForEach(f =>
-                    richTextBoxLog.AppendText(String.Join(", ", f.Indices) + Environment.NewLine));
-                //  Show each message.
-                richTextBoxLog.AppendText(String.Format("Show each message.") + Environment.NewLine);
-                foreach (var message in result.Messages)
-                {
-                    richTextBoxLog.AppendText(String.Format("{0}: {1}", message.MessageType, message.Details) + Environment.NewLine);
-                    richTextBoxLog.AppendText(String.Format("{0}: {1}", message.FileName, message.LineNumber) + Environment.NewLine);
-                }
             }
         }
 
@@ -367,10 +337,6 @@ namespace CG_4_OpenGLScene
         {
             if (colorDialogClear.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                //MessageBox.Show("R:" + colorDialogClear.Color.R.ToString()
-                //    +"G:" + colorDialogClear.Color.G.ToString()
-                //    +"B:" + colorDialogClear.Color.B.ToString()
-                //+ "A:" + colorDialogClear.Color.A.ToString());
                 clearColor = new ColorF(colorDialogClear.Color);
                 OpenGL gl = openGLControl.OpenGL;
                 gl.ClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.alpha);
@@ -634,6 +600,19 @@ namespace CG_4_OpenGLScene
                 openGLControl.OpenGL.Enable(OpenGL.GL_BLEND);
             else
                 openGLControl.OpenGL.Disable(OpenGL.GL_BLEND);
+            openGLControl.DoRender();
+        }
+
+        private void зеркальноеОтражениеНаТекстурахToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = sender as ToolStripMenuItem;
+            if (item == null)
+                return;
+            item.Checked = !item.Checked;
+            if (item.Checked)
+                openGLControl.OpenGL.LightModel(OpenGL.GL_LIGHT_MODEL_COLOR_CONTROL_EXT, OpenGL.GL_SEPARATE_SPECULAR_COLOR_EXT);
+            else
+                openGLControl.OpenGL.LightModel(OpenGL.GL_LIGHT_MODEL_COLOR_CONTROL_EXT, OpenGL.GL_SINGLE_COLOR_EXT);
             openGLControl.DoRender();
         }
     }

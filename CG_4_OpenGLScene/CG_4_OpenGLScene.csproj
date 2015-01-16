@@ -38,13 +38,17 @@
     <Reference Include="FileFormatWavefront">
       <HintPath>Dependencies\FileFormatWavefront.dll</HintPath>
     </Reference>
-    <Reference Include="SharpGL, Version=2.0.0.0, Culture=neutral, PublicKeyToken=27fc851303210b27, processorArchitecture=MSIL">
+    <Reference Include="SharpGL, Version=2.3.0.1, Culture=neutral, PublicKeyToken=27fc851303210b27, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\Documents and Settings\USER\Local Settings\Application Data\Temporary Projects\CG_4_OpenGLScene\Dependencies\SharpGL.dll</HintPath>
+      <HintPath>Dependencies\SharpGL.dll</HintPath>
     </Reference>
-    <Reference Include="SharpGL.SceneGraph, Version=1.0.0.0, Culture=neutral, PublicKeyToken=27fc851303210b27, processorArchitecture=MSIL">
+    <Reference Include="SharpGL.SceneGraph, Version=2.3.0.1, Culture=neutral, PublicKeyToken=27fc851303210b27, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\Documents and Settings\USER\Local Settings\Application Data\Temporary Projects\CG_4_OpenGLScene\Dependencies\SharpGL.SceneGraph.dll</HintPath>
+      <HintPath>Dependencies\SharpGL.SceneGraph.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpGL.Serialization, Version=2.3.0.1, Culture=neutral, PublicKeyToken=27fc851303210b27, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Dependencies\SharpGL.Serialization.dll</HintPath>
     </Reference>
     <Reference Include="SharpGL.WinForms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=27fc851303210b27, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -67,9 +71,13 @@
     <Compile Include="Figures\Axis.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Figures\Board.cs" />
+    <Compile Include="Figures\ChessFigures.cs" />
     <Compile Include="Figures\FigureFromOBJ.cs" />
+    <Compile Include="Figures\FigureFromOBJSharpGL.cs" />
+    <Compile Include="Figures\House.cs" />
     <Compile Include="Figures\IcosahedronAsSphere.cs" />
     <Compile Include="Figures\Parallelepiped.cs" />
+    <Compile Include="Figures\ParallelepipedWithDiffTextures.cs" />
     <Compile Include="Figures\SphereFromIcosahedron.cs" />
     <Compile Include="Figures\Table.cs" />
     <Compile Include="FormPerspectiveAngle.cs">
@@ -125,6 +133,24 @@
       <DependentUpon>SharpGLForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="ModelOBJ\Bishop.obj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ModelOBJ\King.obj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ModelOBJ\Knight.obj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ModelOBJ\Pawn.obj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ModelOBJ\Queen.obj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ModelOBJ\Rook.obj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -136,13 +162,34 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Texture\chess_board.jpg">
+    <Content Include="Texture\brick_28.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Texture\chess_board2.jpg">
+    <Content Include="Texture\Chess_Board3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Texture\clear_glass.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Texture\door.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Texture\floor.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Texture\grass_8.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Texture\marble_table.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Texture\roof_12.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Texture\top.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Texture\wallpaper_4.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Texture\wood.jpg">

@@ -10,10 +10,10 @@ namespace CG_4_OpenGLScene.Figures
 {
     class Parallelepiped : AbstractColorFigure
     {
-        private float sizeX, sizeY, sizeZ;
-        Texture texture;
+        protected float sizeX, sizeY, sizeZ;
+        protected Texture texture;
 
-        float[] vertexs, normals, texCoord;
+        protected float[] vertexs, normals, texCoord;
 
         public Parallelepiped(ColorF color, Point3D position, float sizeX = 1, float sizeY = 1, float sizeZ = 1, Texture texture = null)
             : base(color, position)
@@ -38,12 +38,18 @@ namespace CG_4_OpenGLScene.Figures
             };
             uint[][] faces = new uint[][]
             {
-                new uint[] {0, 1, 2, 3},
-                new uint[] {0, 4, 5, 1},
-                new uint[] {7, 6, 5, 4},
-                new uint[] {3, 2, 6, 7},
-                new uint[] {1, 5, 6, 2},
-                new uint[] {0, 3, 7, 4}
+                //new uint[] {0, 1, 2, 3},
+                //new uint[] {0, 4, 5, 1},
+                //new uint[] {7, 6, 5, 4},
+                //new uint[] {3, 2, 6, 7},
+                //new uint[] {1, 5, 6, 2},
+                //new uint[] {0, 3, 7, 4}
+                new uint[] {2,3,0,1},   //z+
+                new uint[] {1,0,4,5},   //y+
+                new uint[] {7, 6, 5, 4},//z-
+                new uint[] {3, 2, 6, 7},//y-
+                new uint[] {6,2,1,5},   //x-
+                new uint[] {3, 7, 4,0}  //x+
             };
             
             Vector3d[] normalsVec = new Vector3d[24];
@@ -75,17 +81,21 @@ namespace CG_4_OpenGLScene.Figures
             texCoord = new float[24 * 2];
             for (int i = 0; i < 6; i++)
             {
-                texCoord[i * 8 + 0] = 0;
-                texCoord[i * 8 + 1] = 0;
+                //текстура грузится в память не с левого нижнего угла, а видимо
+                //с левого верхнего. поэтому сжинем координаты
+                //всё равно не совсем правильно, повёрнуто на 180, но сойдёт
 
-                texCoord[i * 8 + 2] = 1;
-                texCoord[i * 8 + 3] = 0;
+                texCoord[i * 8 + 0] = 1;
+                texCoord[i * 8 + 1] = 1;
 
-                texCoord[i * 8 + 4] = 1;
-                texCoord[i * 8 + 5] = 1;
+                texCoord[i * 8 + 2] = 0;
+                texCoord[i * 8 + 3] = 1;
 
-                texCoord[i * 8 + 6] = 0;
-                texCoord[i * 8 + 7] = 1;
+                texCoord[i * 8 + 4] = 0;
+                texCoord[i * 8 + 5] = 0;
+
+                texCoord[i * 8 + 6] = 1;
+                texCoord[i * 8 + 7] = 0;
             }
         }
 
@@ -126,6 +136,8 @@ namespace CG_4_OpenGLScene.Figures
                 gl.Enable(OpenGL.GL_TEXTURE_2D);
                 texture.Bind(gl);
             }
+            else
+                gl.Disable(OpenGL.GL_TEXTURE_2D);
 
             gl.DrawArrays(OpenGL.GL_QUADS, 0, 24);
 
