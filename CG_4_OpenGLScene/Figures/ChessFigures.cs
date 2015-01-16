@@ -35,18 +35,18 @@ namespace CG_4_OpenGLScene.Figures
             this.textureWhite = textureWhite;
             this.textureBlack = textureBlack;
 
-            Bishop = new FigureFromOBJSharpGL(gl, new Point3D(),
-                @"ModelOBJ\Bishop.obj", scale);
+            //Bishop = new FigureFromOBJSharpGL(gl, new Point3D(),
+            //    @"ModelOBJ\Bishop.obj", scale);
             King = new FigureFromOBJSharpGL(gl, new Point3D(),
-                @"ModelOBJ\King.obj", scale);
-            Knight = new FigureFromOBJSharpGL(gl, new Point3D(),
-                @"ModelOBJ\Knight.obj", scale);
-            Pawn = new FigureFromOBJSharpGL(gl, new Point3D(),
-                @"ModelOBJ\Pawn.obj", scale);
-            Queen = new FigureFromOBJSharpGL(gl, new Point3D(),
-                @"ModelOBJ\Queen.obj", scale);
-            Rook = new FigureFromOBJSharpGL(gl, new Point3D(),
-                @"ModelOBJ\Rook.obj", scale);
+                @"ModelOBJ\King.obj", scale, 100);
+            //Knight = new FigureFromOBJSharpGL(gl, new Point3D(),
+            //    @"ModelOBJ\Knight.obj", scale);
+            //Pawn = new FigureFromOBJSharpGL(gl, new Point3D(),
+            //    @"ModelOBJ\Pawn.obj", scale);
+            //Queen = new FigureFromOBJSharpGL(gl, new Point3D(),
+            //    @"ModelOBJ\Queen.obj", scale);
+            //Rook = new FigureFromOBJSharpGL(gl, new Point3D(),
+            //    @"ModelOBJ\Rook.obj", scale);
 
             ListInd = gl.GenLists(1);
             gl.NewList(ListInd, OpenGL.GL_COMPILE);
@@ -72,16 +72,22 @@ namespace CG_4_OpenGLScene.Figures
             else
                 gl.Disable(OpenGL.GL_TEXTURE_2D);
             //белые
-            for (int i=0; i<8; i++)
-                DrawFigureInPosition(gl, Pawn, (char)('a'+i), 2);
-            DrawFigureInPosition(gl, Rook, 'a', 1);
-            DrawFigureInPosition(gl, Knight, 'b', 1);
-            DrawFigureInPosition(gl, Bishop, 'c', 1);
-            DrawFigureInPosition(gl, Queen, 'd', 1);
-            DrawFigureInPosition(gl, King, 'e', 1);
-            DrawFigureInPosition(gl, Bishop, 'f', 1);
-            DrawFigureInPosition(gl, Knight, 'g', 1);
-            DrawFigureInPosition(gl, Rook, 'h', 1);
+            //for (int i=0; i<8; i++)
+            //    DrawFigureInPosition(gl, Pawn, (char)('a'+i), 2);
+            //DrawFigureInPosition(gl, Rook, 'a', 1);
+            //DrawFigureInPosition(gl, Knight, 'b', 1);
+            //DrawFigureInPosition(gl, Bishop, 'c', 1);
+            //DrawFigureInPosition(gl, Queen, 'd', 1);
+            //DrawFigureInPosition(gl, King, 'e', 1);
+            //DrawFigureInPosition(gl, Bishop, 'f', 1);
+            //DrawFigureInPosition(gl, Knight, 'g', 1);
+            //DrawFigureInPosition(gl, Rook, 'h', 1);
+
+            float quardSize = boardSize / 8;
+            float halfQuard = quardSize / 2;
+            gl.Translate(0, halfQuard, 0);
+            DrawFigureInPosition(gl, King, 'e', 4);
+
             if (textureWhite != null)
             {
                 textureWhite.Pop(gl);
@@ -96,16 +102,16 @@ namespace CG_4_OpenGLScene.Figures
             else
                 gl.Disable(OpenGL.GL_TEXTURE_2D);
             //чёрные
-            for (int i = 0; i < 8; i++)
-                DrawFigureInPosition(gl, Pawn, (char)('a' + i), 7);
-            DrawFigureInPosition(gl, Rook, 'a', 8);
-            DrawFigureInPosition(gl, Knight, 'b', 8);
-            DrawFigureInPosition(gl, Bishop, 'c', 8);
-            DrawFigureInPosition(gl, Queen, 'd', 8);
-            DrawFigureInPosition(gl, King, 'e', 8);
-            DrawFigureInPosition(gl, Bishop, 'f', 8);
-            DrawFigureInPosition(gl, Knight, 'g', 8);
-            DrawFigureInPosition(gl, Rook, 'h', 8);
+            //for (int i = 0; i < 8; i++)
+            //    DrawFigureInPosition(gl, Pawn, (char)('a' + i), 7);
+            //DrawFigureInPosition(gl, Rook, 'a', 8);
+            //DrawFigureInPosition(gl, Knight, 'b', 8);
+            //DrawFigureInPosition(gl, Bishop, 'c', 8);
+            //DrawFigureInPosition(gl, Queen, 'd', 8);
+            //DrawFigureInPosition(gl, King, 'e', 8);
+            //DrawFigureInPosition(gl, Bishop, 'f', 8);
+            //DrawFigureInPosition(gl, Knight, 'g', 8);
+            //DrawFigureInPosition(gl, Rook, 'h', 8);
             if (textureBlack != null)
             {
                 textureBlack.Pop(gl);

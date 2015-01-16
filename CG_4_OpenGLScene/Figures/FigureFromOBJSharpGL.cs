@@ -20,7 +20,8 @@ namespace CG_4_OpenGLScene.Figures
     {
         private uint ListInd;
 
-        public FigureFromOBJSharpGL(OpenGL gl, Point3D position, string fileName, float scale = 1)
+        public FigureFromOBJSharpGL(OpenGL gl, Point3D position, string fileName, float scale = 1,
+            float rotX = 0)
             : base(position)
         {
             ObjFileFormat objFile = new ObjFileFormat();
@@ -29,6 +30,8 @@ namespace CG_4_OpenGLScene.Figures
             gl.NewList(ListInd, OpenGL.GL_COMPILE);
             {
                 gl.Translate(position.x, position.y, position.z);
+                if (rotX!=0)
+                    gl.Rotate(rotX, 0, 0);
                 gl.Scale(scale, scale, scale);
                 DrawFigure(gl, res.SceneContainer.Traverse<Polygon>().ElementAt(0));
             }
