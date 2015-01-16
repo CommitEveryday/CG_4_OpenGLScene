@@ -70,6 +70,7 @@
             this.фоновыйЦветToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.локальныйНаблюдательToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.двустороннееОсвещениеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.зеркальноеОтражениеНаТекстурахToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
             this.contextMenuStripLog = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.очиститьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -77,7 +78,6 @@
             this.colorDialogAmbient = new System.Windows.Forms.ColorDialog();
             this.timerMoveLight = new System.Windows.Forms.Timer(this.components);
             this.colorDialogLight0Diffuse = new System.Windows.Forms.ColorDialog();
-            this.зеркальноеОтражениеНаТекстурахToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.openGLControl)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStripLog.SuspendLayout();
@@ -427,6 +427,13 @@
             this.двустороннееОсвещениеToolStripMenuItem.Text = "Двустороннее освещение";
             this.двустороннееОсвещениеToolStripMenuItem.Click += new System.EventHandler(this.двустороннееОсвещениеToolStripMenuItem_Click);
             // 
+            // зеркальноеОтражениеНаТекстурахToolStripMenuItem
+            // 
+            this.зеркальноеОтражениеНаТекстурахToolStripMenuItem.Name = "зеркальноеОтражениеНаТекстурахToolStripMenuItem";
+            this.зеркальноеОтражениеНаТекстурахToolStripMenuItem.Size = new System.Drawing.Size(275, 22);
+            this.зеркальноеОтражениеНаТекстурахToolStripMenuItem.Text = "Зеркальное отражение на текстурах";
+            this.зеркальноеОтражениеНаТекстурахToolStripMenuItem.Click += new System.EventHandler(this.зеркальноеОтражениеНаТекстурахToolStripMenuItem_Click);
+            // 
             // richTextBoxLog
             // 
             this.richTextBoxLog.ContextMenuStrip = this.contextMenuStripLog;
@@ -470,13 +477,6 @@
             // 
             this.colorDialogLight0Diffuse.FullOpen = true;
             // 
-            // зеркальноеОтражениеНаТекстурахToolStripMenuItem
-            // 
-            this.зеркальноеОтражениеНаТекстурахToolStripMenuItem.Name = "зеркальноеОтражениеНаТекстурахToolStripMenuItem";
-            this.зеркальноеОтражениеНаТекстурахToolStripMenuItem.Size = new System.Drawing.Size(275, 22);
-            this.зеркальноеОтражениеНаТекстурахToolStripMenuItem.Text = "Зеркальное отражение на текстурах";
-            this.зеркальноеОтражениеНаТекстурахToolStripMenuItem.Click += new System.EventHandler(this.зеркальноеОтражениеНаТекстурахToolStripMenuItem_Click);
-            // 
             // SharpGLForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -487,7 +487,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "SharpGLForm";
-            this.Text = "Лабораторная работа №4";
+            this.Text = "Компьютерная графика";
             ((System.ComponentModel.ISupportInitialize)(this.openGLControl)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

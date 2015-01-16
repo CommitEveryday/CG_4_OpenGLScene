@@ -89,10 +89,11 @@ namespace CG_4_OpenGLScene
             text_white.Create(gl, @"Texture\wood_white.jpg");
             Texture text_black = new Texture();
             text_black.Create(gl, @"Texture\wood_black.jpg");
-            figs.Add(new ChessFigures(gl, new Point3D(0, tableHeight + 0.05f * tableHeight, 0), tableSize * 0.8f, new ColorF(Color.White),
-                new ColorF(Color.White), text_white, text_black));
             //figs.Add(new ChessFigures(gl, new Point3D(0, tableHeight + 0.05f * tableHeight, 0), tableSize * 0.8f, new ColorF(Color.White),
-            //    new ColorF(Color.White)));
+            //    new ColorF(Color.White), text_white, text_black));
+            figs.Add(new ChessFigures(gl, new Point3D(0, tableHeight + 0.05f * tableHeight, 0), tableSize * 0.8f, 
+                new ColorF(Color.FromArgb(242,213,167)),
+                new ColorF(Color.FromArgb(39,27,8))));
 
             Texture textGlass = new Texture();
             textGlass.Create(gl, @"Texture\clear_glass.jpg");
