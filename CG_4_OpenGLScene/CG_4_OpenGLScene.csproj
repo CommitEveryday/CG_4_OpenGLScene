@@ -96,7 +96,6 @@
     <Compile Include="HelpersClasses\HomogeneousCoordinates.cs" />
     <Compile Include="Figures\Icosahedron.cs" />
     <Compile Include="HelpersClasses\LightInfo.cs" />
-    <Compile Include="HelpersClasses\Log.cs" />
     <Compile Include="HelpersClasses\Matrix.cs" />
     <Compile Include="HelpersClasses\Point3D.cs" />
     <Compile Include="Figures\Pyramid.cs" />

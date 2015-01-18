@@ -164,8 +164,6 @@ namespace CG_4_OpenGLScene
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         private void openGLControl_Resized(object sender, EventArgs e)
         {
-            richTextBoxLog.AppendText("openGLControl_Resized\r\n");
-            //  Get the OpenGL object.
             OpenGL gl = openGLControl.OpenGL;
             int w = openGLControl.ClientSize.Width;
             int h = openGLControl.ClientSize.Height;
